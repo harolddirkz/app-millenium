@@ -21,4 +21,11 @@ public class Alternativa implements Serializable {
     private String alternativa;
     @Column(name = "valido",nullable = false)
     private boolean valido;
+    /*
+    Relacion con La Entidad PreguntaExamen
+     */
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @JoinColumn(name = "pregunta_examen_id")
+    private PreguntaExamen preguntaExamen;
+
 }

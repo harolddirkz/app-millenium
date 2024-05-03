@@ -18,4 +18,10 @@ public class MaterialEducativo {
     private String Descripcion;
     private String tipo;
     private String enlace;
+    /*
+    Relacion con la Entidad Sesion
+     */
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @JoinColumn(name = "sesion_id")
+    private Sesion sesion;
 }

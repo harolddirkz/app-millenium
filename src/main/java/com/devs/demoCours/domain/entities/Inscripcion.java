@@ -37,6 +37,14 @@ public class Inscripcion implements Serializable {
     @JsonIgnore
     private Curso curso;
 
+    /*
+    relacion con la entidad Estudiante
+     */
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @JoinColumn(name = "estudiante_id")
+    @JsonIgnore
+    private Estudiante estudiante;
+
 
 
 

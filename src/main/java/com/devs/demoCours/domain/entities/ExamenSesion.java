@@ -26,11 +26,18 @@ public class ExamenSesion implements Serializable {
 
     //relacion con la Entidad TakeExamen
     @OneToMany(mappedBy = "examenSesion",cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonIgnore
     private List<TakeExamen> takeExamenList;
     //relacion con la Entidad Sesion
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "sesion_id")
     @JsonIgnore
     private Sesion sesion;
+    /*
+    relacion con la entidad PreguntaExamen
+     */
+    @OneToMany(mappedBy = "examenSesion",cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonIgnore
+    private List<PreguntaExamen> preguntaExamenList;
 
 }

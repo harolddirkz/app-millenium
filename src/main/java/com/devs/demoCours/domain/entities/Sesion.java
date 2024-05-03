@@ -1,5 +1,6 @@
 package com.devs.demoCours.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,11 +28,25 @@ public class Sesion implements Serializable {
 
     //relacion con la Entidad ExamenSesion
     @OneToMany(mappedBy = "sesion",cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonIgnore
     private List<ExamenSesion> examenSesionList;
 
     //relacion con la entidad Curso
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "curso_id")
     private Curso curso;
+    /*
+    relacion con la Entidad Docente
+     */
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @JoinColumn(name = "docente_id")
+    private Docente docente;
+    /*
+    Relacion con la entidad MaterialEducativo
+     */
+    @OneToMany(mappedBy = "sesion",cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonIgnore
+    private List<MaterialEducativo> materialEducativoList;
+
 
 }
