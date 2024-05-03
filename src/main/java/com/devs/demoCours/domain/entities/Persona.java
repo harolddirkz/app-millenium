@@ -25,6 +25,7 @@ public class Persona {
     private String avatar;
     @Enumerated(EnumType.STRING)
     private Genero genero;
+    @Column(name = "fecha_nacimiento",length = 10)
     private LocalDate birthDate;
     private boolean status;
 }

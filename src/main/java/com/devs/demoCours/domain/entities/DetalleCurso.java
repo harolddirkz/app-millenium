@@ -6,11 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Entity(name = "Detalle_curso")
-public class DetalleCurso {
+public class DetalleCurso implements Serializable {
     @Id
     @Column(name = "detalle_curso_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +20,7 @@ public class DetalleCurso {
 
 
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "idcurso")
+    @JoinColumn(name = "id_curso")
     @JsonIgnore
     private Curso curso;
 }
