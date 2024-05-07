@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Entity(name = "sesion")
-public class Sesion implements Serializable {
+public class SesionEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_sesion")
@@ -29,24 +29,24 @@ public class Sesion implements Serializable {
     //relacion con la Entidad ExamenSesion
     @OneToMany(mappedBy = "sesion",cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonIgnore
-    private List<ExamenSesion> examenSesionList;
+    private List<ExamenSesionEntity> examenSesionEntityList;
 
     //relacion con la entidad Curso
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "curso_id")
-    private Curso curso;
+    private CursoEntity curso;
     /*
     relacion con la Entidad Docente
      */
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "docente_id")
-    private Docente docente;
+    private DocenteEntity docente;
     /*
     Relacion con la entidad MaterialEducativo
      */
     @OneToMany(mappedBy = "sesion",cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonIgnore
-    private List<MaterialEducativo> materialEducativoList;
+    private List<MaterialEducativoEntity> materialEducativoEntityList;
 
 
 }

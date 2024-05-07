@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity(name = "material_educativo")
-public class MaterialEducativo {
+public class MaterialEducativoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_material_educativo")
@@ -23,5 +23,5 @@ public class MaterialEducativo {
      */
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "sesion_id")
-    private Sesion sesion;
+    private SesionEntity sesion;
 }

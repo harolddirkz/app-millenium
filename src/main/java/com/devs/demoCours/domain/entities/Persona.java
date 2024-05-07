@@ -2,30 +2,41 @@ package com.devs.demoCours.domain.entities;
 
 import com.devs.demoCours.utils.Genero;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
+import java.util.List;
+
 @MappedSuperclass
 @Data
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Persona {
 
     @Id
     @Column(name = "id_persona")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idPersona;
+    protected Integer idPersona;
     @Column(nullable = false,unique = true,length =8 )
-    private String dni;
+    protected String dni;
     @Column(name = "nombre",nullable = false,length = 40)
-    private String name;
+    protected String name;
     @Column(name = "apellidos",nullable = false,length = 60)
-    private String lastName;
+    protected String lastName;
     @Column(unique = true,name = "correo")
-    private String email;
-    private String password;
-    private String avatar;
+    protected String email;
+    protected String password;
+    protected String avatar;
     @Enumerated(EnumType.STRING)
-    private Genero genero;
+    protected Genero genero;
     @Column(name = "fecha_nacimiento",length = 10)
-    private LocalDate birthDate;
-    private boolean status;
+    protected LocalDate birthDate;
+    protected boolean status;
+
+
 }

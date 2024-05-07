@@ -17,7 +17,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 @Entity(name = "curso")
-public class Curso implements Serializable {
+public class CursoEntity implements Serializable {
     @Id
     @Column(name = "id_curso")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,16 +48,16 @@ public class Curso implements Serializable {
     */
     @OneToMany(mappedBy = "curso",cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonIgnore
-    private Set<DetalleCurso> detalle_curso;
+    private Set<DetalleCursoEntity> detalleCurso;
 
     /*
     * relacion con la entidad Sesion
     */
     @OneToMany(mappedBy = "curso",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<Sesion> sesionList;
+    private List<SesionEntity> sesionEntityList;
     /*
     Relacion con la Entidad Inscripcion
      */
     @OneToMany(mappedBy = "curso",fetch = FetchType.LAZY,orphanRemoval = true)
-    private List<Inscripcion> inscripcions;
+    private List<InscripcionEntity> inscripcionEntities;
 }

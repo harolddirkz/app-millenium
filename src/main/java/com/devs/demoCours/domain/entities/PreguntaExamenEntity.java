@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Entity(name = "pregunta_examen")
-public class PreguntaExamen {
+public class PreguntaExamenEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idPreguntaExamen;
@@ -26,12 +26,12 @@ public class PreguntaExamen {
      */
     @ManyToOne(cascade = CascadeType.ALL,optional = false)
     @JoinColumn(name = "examen_sesion_id")
-    private ExamenSesion examenSesion;
+    private ExamenSesionEntity examenSesion;
 
     /*
     relacion con la EntidadAlternativa;
     */
     @OneToMany(mappedBy = "preguntaExamen",cascade =  CascadeType.ALL,orphanRemoval = true)
     @JsonIgnore
-    private List<Alternativa> alternativaList;
+    private List<AlternativaEntity> alternativaEntityList;
 }

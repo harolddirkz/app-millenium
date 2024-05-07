@@ -11,7 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 @Entity
-public class TakeExamen implements Serializable {
+public class TakeExamenEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_take_examen")
@@ -22,11 +22,11 @@ public class TakeExamen implements Serializable {
     //relacion con la Entidad Inscripcion
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "inscripcion_id")
-    private Inscripcion inscripcion;
+    private InscripcionEntity inscripcion;
 
     //relacion con la Entidad Examen
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "examen_sesion_id")
-    private ExamenSesion examenSesion;
+    private ExamenSesionEntity examenSesion;
 
 }

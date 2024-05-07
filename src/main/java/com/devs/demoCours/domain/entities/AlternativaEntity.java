@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.io.Serializable;
 
@@ -12,7 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 @Entity(name = "alternativa")
-public class Alternativa implements Serializable {
+public class AlternativaEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_alternativa")
@@ -26,6 +25,6 @@ public class Alternativa implements Serializable {
      */
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "pregunta_examen_id")
-    private PreguntaExamen preguntaExamen;
+    private PreguntaExamenEntity preguntaExamen;
 
 }

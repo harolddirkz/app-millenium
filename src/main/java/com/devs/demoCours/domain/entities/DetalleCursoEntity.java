@@ -12,7 +12,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Data
 @Entity(name = "Detalle_curso")
-public class DetalleCurso implements Serializable {
+public class DetalleCursoEntity implements Serializable {
     @Id
     @Column(name = "detalle_curso_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,5 +22,5 @@ public class DetalleCurso implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "id_curso")
     @JsonIgnore
-    private Curso curso;
+    private CursoEntity curso;
 }
