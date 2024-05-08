@@ -12,17 +12,19 @@ import com.devs.demoCours.domain.repositories.RoleRepository;
 import com.devs.demoCours.infraestructure.abstractServices.DocenteService;
 import com.devs.demoCours.utils.Role;
 import com.devs.demoCours.utils.exeptions.UsuarioDuplicado;
+import com.devs.demoCours.utils.exeptions.UsuarioNoAutorizado;
 import com.devs.demoCours.utils.exeptions.UsuarioNoExist;
 import com.devs.demoCours.utils.mapper.DocenteMapping;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
+import static com.devs.demoCours.utils.Role.*;
 
 @Service
 @AllArgsConstructor
@@ -42,12 +44,12 @@ public class DocenteServiceImpl implements DocenteService {
     @Override
     @Transactional
     public DocenteResponse createDocente(DocenteCreateRequest request) {
-        Optional<DocenteEntity> existeDocente = docenteRepository.existeDocente(request.getDni());
+        Optional<DocenteEntity> docente = docenteRepository.buscarPorDni(request.getDni());
         RoleEntity rolStudent = roleRepository.findByName(Role.ROLE_STUDENT).orElseThrow();
         RoleEntity rolTeach = roleRepository.findByName(Role.ROLE_TEACH).orElseThrow();
         List<RoleEntity> roles = new ArrayList<>();
         roles.add(rolStudent);
-        if (existeDocente.isEmpty()) {
+        if (docente.isEmpty()) {
             Optional<EstudianteEntity> existeEstudiante = estudianteRepository.existeEstudiante(request.getDni());
 
             if (existeEstudiante.isEmpty()) {
@@ -64,7 +66,7 @@ public class DocenteServiceImpl implements DocenteService {
                 estudianteRepository.save(estudiante);
             }
             roles.add(rolTeach);
-            return  docenteMapping.entityToResponse(crearDocente(request, roles));
+            return docenteMapping.entityToResponse(crearDocente(request, roles));
 
 
         } else {
@@ -98,16 +100,93 @@ public class DocenteServiceImpl implements DocenteService {
 
     /*
     Esté método listará los docentes que se encuentres activos
-
      */
     @Override
     public List<DocenteResponse> listDocentes() {
         List<DocenteEntity> docentes = docenteRepository.listarDocentesActivos();
         List<DocenteResponse> response = new ArrayList<>();
-        for(DocenteEntity res:docentes){
+        for (DocenteEntity res : docentes) {
             response.add(docenteMapping.entityToResponse(res));
         }
         return response;
+    }
+
+    /*
+    este método retornará un DocenteResponse, si hay un registro en la base de datos;
+    de lo contrario retornara un UsuarioNotExist como error.
+     */
+    @Override
+    public DocenteResponse docente(Long id) {
+        Optional<DocenteEntity> docente = docenteRepository.findById(id);
+        if (docente.isPresent()) {
+            return docenteMapping.entityToResponse(docente.get());
+        } else {
+            throw new UsuarioNoExist(id.toString());
+        }
+    }
+
+    /*
+    Este método eliminará los roles y pasará a falce el atributo Active de un registro; cumpliendo una de las siguientes condiciones:
+    El idAdmin ingresado tiene un rol de ROLE_ADMIN.
+    El IdAdmin e idDocente pertenecen al mismo docente
+    */
+    @Override
+    public Map<String,Object> deleteDocente(Long idAdmin, Long idDocente) {
+        Optional<DocenteEntity> docenteBd = docenteRepository.buscarPorIdAndStatus(idDocente);
+        Optional<DocenteEntity> docenteAdmin = docenteRepository.buscarPorIdAndStatus(idAdmin);
+        Map<String, Object> response = new HashMap<>();
+        if (docenteBd.isPresent()) {
+            if (docenteAdmin.isPresent()) {
+                List<RoleEntity> roles = docenteAdmin.get().getRoles();
+                if (existeRol(roles, ROLE_ADMIN) || docenteAdmin.equals(docenteBd)) {
+                    List<RoleEntity> rolesDocente = docenteBd.get().getRoles();
+                    DocenteEntity docenteDelete = docenteBd.get();
+                    rolesDocente.removeIf(objet -> Objects.equals(objet.getName(), ROLE_TEACH));
+                    rolesDocente.removeIf(objet -> Objects.equals(objet.getName(), ROLE_STUDENT));
+                    docenteDelete.setRoles(rolesDocente);
+                    docenteDelete.setActivo(false);
+                    docenteDelete.setStatus(false);
+                    docenteRepository.save(docenteDelete);
+                    response.put("message", " el docente con dni: " + docenteDelete.getDni() + " se a quitado");
+                    response.put("status", true);
+                    response.put("code", HttpStatus.OK.value());
+                } else {
+                    response.put("message", " el Usuario con dni: " + docenteAdmin.get().getDni() + " no tiene los permisos suficientes");
+                    response.put("status", false);
+                    response.put("code", HttpStatus.UNAUTHORIZED.value());
+
+                }
+                return response;
+            } else {
+                throw new UsuarioNoExist(idAdmin.toString());
+            }
+        } else {
+            throw new UsuarioNoExist(idDocente.toString());
+        }
+
+
+    }
+    /*
+    método para eliminar los roles y cambiar el status de un docente
+     private void quitarRolesAndStatus(DocenteEntity entity){
+        List<RoleEntity> rolesDocente = entity.getRoles();
+        rolesDocente.removeIf(objet -> Objects.equals(objet.getName(), ROLE_TEACH));
+        rolesDocente.removeIf(objet -> Objects.equals(objet.getName(), ROLE_STUDENT));
+        entity.setRoles(rolesDocente);
+        entity.setActivo(false);
+        entity.setStatus(false);
+    }*/
+    /*
+    Método para verificar si existe un rol dentro de una lista
+     */
+
+    private boolean existeRol(List<RoleEntity> roles, Role role) {
+        boolean valor = false;
+        for (RoleEntity rol : roles) {
+            valor = rol.getName().equals(role);
+        }
+        return valor;
+
     }
 
 

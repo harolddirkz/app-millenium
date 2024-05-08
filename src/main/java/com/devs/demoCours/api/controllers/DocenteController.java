@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/docente")
@@ -30,5 +31,14 @@ public class DocenteController {
     @GetMapping(value = "list")
     public ResponseEntity<List<DocenteResponse>> listDocentes(){
         return ResponseEntity.ok(docenteService.listDocentes());
+    }
+    @GetMapping(value = "docente")
+    public ResponseEntity<DocenteResponse> docentes(@RequestParam Long id){
+        return ResponseEntity.ok(docenteService.docente(id));
+    }
+    @PutMapping(value = "delete")
+    public ResponseEntity<Map<String,Object>> deleteDocente(@RequestParam Long idAdmin, @RequestParam Long idDocente){
+
+        return ResponseEntity.ok(docenteService.deleteDocente(idAdmin,idDocente));
     }
 }

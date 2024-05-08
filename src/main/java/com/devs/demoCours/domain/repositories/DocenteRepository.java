@@ -1,6 +1,8 @@
 package com.devs.demoCours.domain.repositories;
 
 import com.devs.demoCours.domain.entities.DocenteEntity;
+import com.devs.demoCours.domain.entities.RoleEntity;
+import com.devs.demoCours.utils.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,8 +16,11 @@ public interface DocenteRepository extends JpaRepository<DocenteEntity,Long> {
     Optional<DocenteEntity> buscarPorEmail(@Param("email") String email);
 
     @Query("select d from docente d where d.dni=:dni")
-    Optional<DocenteEntity> existeDocente(@Param("dni") String dni);
+    Optional<DocenteEntity> buscarPorDni(@Param("dni") String dni);
+    @Query("select d from docente d where d.idPersona=:id and d.activo= true ")
+    Optional<DocenteEntity> buscarPorIdAndStatus(@Param("id") Long id);
 
     @Query("select d from docente  d where d.activo=true and d.status = true")
     List<DocenteEntity> listarDocentesActivos();
+
 }
