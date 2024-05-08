@@ -64,7 +64,7 @@ public class AuthService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .status(true)
                 .activo(true)
-                .especialida("derecho Penal")
+                .especialidad("derecho Penal")
                 .roles(roles)
                 .build();
         docenteRepository.save(docente);

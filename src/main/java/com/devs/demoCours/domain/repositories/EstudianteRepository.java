@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface EstudianteRepository extends JpaRepository<EstudianteEntity,Long> {
     @Query("Select e from estudiante e where e.email=:email")
     Optional<EstudianteEntity> buscarPorEmail(@Param("email") String email);
+    @Query("select e from estudiante e where e.dni=:dni")
+    Optional<EstudianteEntity> existeEstudiante(@Param("dni") String dni);
 }

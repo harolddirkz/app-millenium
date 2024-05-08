@@ -34,7 +34,7 @@ public class EstudianteEntity extends Persona implements Serializable, UserDetai
     private List<InscripcionEntity> inscripcionEntityList;
 
     /*relation with roles*/
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @JoinTable(name = "estudentRoles",
             joinColumns = @JoinColumn(name = "estudentId"),
             inverseJoinColumns = @JoinColumn(name = "roleId"),

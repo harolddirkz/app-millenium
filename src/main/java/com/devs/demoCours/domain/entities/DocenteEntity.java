@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @SuperBuilder()
 public class DocenteEntity extends Persona implements Serializable, UserDetails {
     @Column(name = "especialidad_docente", length = 40)
-    private String especialida;
+    private String especialidad;
     @Column(name = "resenia", length = 500)
     private String resenia;
     private boolean activo;
@@ -38,7 +38,7 @@ public class DocenteEntity extends Persona implements Serializable, UserDetails 
     private List<SesionEntity> sesionEntityList;
 
     /*relation with roles*/
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany(cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
     @JoinTable(name = "docentsRoles",
             joinColumns =@JoinColumn(name="docenteId"),
             inverseJoinColumns = @JoinColumn(name = "roleId"),
