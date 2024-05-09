@@ -151,10 +151,11 @@ public class DocenteServiceImpl implements DocenteService {
                     response.put("status", true);
                     response.put("code", HttpStatus.OK.value());
                 } else {
-                    response.put("message", " el Usuario con dni: " + docenteAdmin.get().getDni() + " no tiene los permisos suficientes");
+                    /* response.put("message", " el Usuario con dni: " + docenteAdmin.get().getDni() + " no tiene los permisos suficientes");
                     response.put("status", false);
                     response.put("code", HttpStatus.UNAUTHORIZED.value());
-
+                    */
+                    throw new UsuarioNoAutorizado(idAdmin.toString());
                 }
                 return response;
             } else {

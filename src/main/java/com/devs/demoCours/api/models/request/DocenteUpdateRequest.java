@@ -1,6 +1,8 @@
 package com.devs.demoCours.api.models.request;
 
 import com.devs.demoCours.utils.Genero;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +14,10 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Data
 public class DocenteUpdateRequest implements Serializable {
+    @NotBlank(message = "El Id del docente es obligatorio")
     private Long id;
+    @Size(min = 8,max = 8,message = "El DNI debe tener 8 caracteres")
+    @NotBlank(message = "El DNI es Obligatorio")
     private String dni;
     private String avatar;
     private Genero genero;
