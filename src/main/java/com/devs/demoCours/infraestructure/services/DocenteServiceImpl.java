@@ -48,11 +48,12 @@ public class DocenteServiceImpl implements DocenteService {
         RoleEntity rolStudent = roleRepository.findByName(Role.ROLE_STUDENT).orElseThrow();
         RoleEntity rolTeach = roleRepository.findByName(Role.ROLE_TEACH).orElseThrow();
         List<RoleEntity> roles = new ArrayList<>();
-        roles.add(rolStudent);
+
         if (docente.isEmpty()) {
             Optional<EstudianteEntity> existeEstudiante = estudianteRepository.existeEstudiante(request.getDni());
 
             if (existeEstudiante.isEmpty()) {
+                roles.add(rolStudent);
                 EstudianteEntity estudiante = EstudianteEntity.builder()
                         .dni(request.getDni())
                         .name(request.getName())
@@ -138,7 +139,7 @@ public class DocenteServiceImpl implements DocenteService {
         if (docenteBd.isPresent()) {
             if (docenteAdmin.isPresent()) {
                 List<RoleEntity> roles = docenteAdmin.get().getRoles();
-                if (existeRol(roles, ROLE_ADMIN) || docenteAdmin.equals(docenteBd)) {
+                if (existeRol(roles) || docenteAdmin.equals(docenteBd)) {
                     List<RoleEntity> rolesDocente = docenteBd.get().getRoles();
                     DocenteEntity docenteDelete = docenteBd.get();
                     rolesDocente.removeIf(objet -> Objects.equals(objet.getName(), ROLE_TEACH));
@@ -181,10 +182,10 @@ public class DocenteServiceImpl implements DocenteService {
     Método para verificar si existe un rol dentro de una lista
      */
 
-    private boolean existeRol(List<RoleEntity> roles, Role role) {
+    private boolean existeRol(List<RoleEntity> roles) {
         boolean valor = false;
         for (RoleEntity rol : roles) {
-            valor = rol.getName().equals(role);
+            valor = rol.getName().equals(Role.ROLE_ADMIN);
         }
         return valor;
 
