@@ -5,6 +5,7 @@ import com.devs.demoCours.utils.TipoCurso;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 @Entity(name = "curso")
 public class CursoEntity implements Serializable {
     @Id
@@ -39,24 +41,24 @@ public class CursoEntity implements Serializable {
     @Column(name = "modalidad",nullable = false)
     private ModalidadCurso modalidad;
     @Column(name = "duracion",nullable = false)
-    private Integer duracion;
-    private Boolean estado;
-    private String silabuz;
-    private String Certificado;
+    private Integer duration;
+    @Column(name = "activo")
+    private boolean activo;
+
     /*
-    * relacion con la Entidad Detalle-Curso
+    * relación con la Entidad Detalle-Curso
     */
     @OneToMany(mappedBy = "curso",cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonIgnore
     private Set<DetalleCursoEntity> detalleCurso;
 
     /*
-    * relacion con la entidad Sesion
+    * relación con la entidad Sesión
     */
     @OneToMany(mappedBy = "curso",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<SesionEntity> sesionEntityList;
     /*
-    Relacion con la Entidad Inscripcion
+    Relación con la Entidad Inscripción
      */
     @OneToMany(mappedBy = "curso",fetch = FetchType.LAZY,orphanRemoval = true)
     private List<InscripcionEntity> inscripcionEntities;

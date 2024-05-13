@@ -4,7 +4,6 @@ import com.devs.demoCours.api.models.request.EstudianteUpdateRequest;
 import com.devs.demoCours.api.models.responses.response.EstudianteResponse;
 import com.devs.demoCours.infraestructure.abstractServices.EstudianteService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameters;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,25 +18,28 @@ import java.util.Map;
 public class EstudianteController {
     private EstudianteService estudianteService;
 
-    @Operation(summary = "actualizar estudiante",description = "actualizará un estudiante mediante los datos del EstudianteUpdateRequest")
+    @Operation(summary = "actualizar estudiante", description = "actualizará un estudiante mediante los datos del EstudianteUpdateRequest")
     @PostMapping(value = "update")
-    public ResponseEntity<EstudianteResponse> updateEstudiante( @Valid @RequestBody EstudianteUpdateRequest request){
+    public ResponseEntity<EstudianteResponse> updateEstudiante(@Valid @RequestBody EstudianteUpdateRequest request) {
         return ResponseEntity.ok(estudianteService.updateEstudiante(request));
     }
-    @Operation(summary = "listar estudiantes",description = "devolverá una lista de estudiantes")
+
+    @Operation(summary = "listar estudiantes", description = "devolverá una lista de estudiantes")
     @GetMapping(value = "list")
-    public ResponseEntity<List<EstudianteResponse>> listEstudiantes(){
+    public ResponseEntity<List<EstudianteResponse>> listEstudiantes() {
         return ResponseEntity.ok(estudianteService.listEstudiantes());
     }
-    @Operation(summary = "obtener estudiantes",description = "devolverá una un estudiante")
+
+    @Operation(summary = "obtener estudiantes", description = "devolverá una un estudiante")
     @GetMapping(value = "usuario")
-    public ResponseEntity<EstudianteResponse> estudiante(@RequestParam Long id){
+    public ResponseEntity<EstudianteResponse> estudiante(@RequestParam Long id) {
         System.out.println(id);
         return ResponseEntity.ok(estudianteService.estudiante(id));
     }
-    @Operation(summary = "borrar estudiante",description = "eliminar estudiante(modificará el estado de un estudiante a falce)")
+
+    @Operation(summary = "borrar estudiante", description = "eliminar estudiante(modificará el estado de un estudiante a falce)")
     @PutMapping(value = "delete")
-    public ResponseEntity<Map<String,Object>> deleteEstudiante(@RequestParam Long idAdmin, @RequestParam Long idEstudiante){
+    public ResponseEntity<Map<String, Object>> deleteEstudiante(@RequestParam Long idAdmin, @RequestParam Long idEstudiante) {
 
         return ResponseEntity.ok(estudianteService.deleteEstudiante(idAdmin, idEstudiante));
     }

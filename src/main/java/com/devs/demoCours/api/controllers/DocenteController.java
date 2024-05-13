@@ -41,10 +41,11 @@ public class DocenteController {
     public ResponseEntity<DocenteResponse> docentes(@RequestParam Long id){
         return ResponseEntity.ok(docenteService.docente(id));
     }
-    @Operation(summary = "borrar docente",description = "eliminar docente(modificará el estado de un docente a falce)")
-    @PutMapping(value = "delete")
-    public ResponseEntity<Map<String,Object>> deleteDocente( @RequestParam Long idAdmin, @RequestParam Long idDocente){
 
-        return ResponseEntity.ok(docenteService.deleteDocente(idAdmin,idDocente));
+    @Operation(summary = "borrar docente", description = "eliminar docente(modificará el estado de un docente a falce)")
+    @PutMapping(value = "delete")
+    public ResponseEntity<Map<String, Object>> deleteDocente(@RequestParam Long idAdmin, @RequestParam Long idDocente) {
+
+        return ResponseEntity.ok(docenteService.deleteDocente(idAdmin, idDocente));
     }
 }

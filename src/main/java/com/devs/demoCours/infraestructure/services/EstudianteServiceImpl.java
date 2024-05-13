@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-import static com.devs.demoCours.utils.Role.*;
+import static com.devs.demoCours.utils.Role.ROLE_STUDENT;
 
 @Service
 @AllArgsConstructor
@@ -26,27 +26,28 @@ public class EstudianteServiceImpl implements EstudianteService {
     private EstudianteRepository estudianteRepository;
     private DocenteRepository docenteRepository;
     private EstudianteMapping estudianteMapping;
+
     @Override
     public EstudianteResponse updateEstudiante(EstudianteUpdateRequest request) {
         Optional<EstudianteEntity> estudiante = estudianteRepository.findById(request.getId());
-        if (estudiante.isPresent()){
-            EstudianteEntity estudianteUpdate=estudiante.get();
+        if (estudiante.isPresent()) {
+            EstudianteEntity estudianteUpdate = estudiante.get();
             estudianteUpdate.setAvatar(request.getAvatar());
             estudianteUpdate.setGenero(request.getGenero());
             estudianteUpdate.setBirthDate(request.getBirthDate());
             estudianteUpdate.setResenia(request.getResenia());
             estudianteRepository.save(estudianteUpdate);
             return estudianteMapping.entityToResponse(estudianteUpdate);
-        }else {
+        } else {
             throw new UsuarioNoExist(request.getDni());
         }
     }
 
     @Override
     public List<EstudianteResponse> listEstudiantes() {
-        List<EstudianteEntity> estudiantes=estudianteRepository.listEstudiantesActivos();
-        List<EstudianteResponse> response =new ArrayList<>();
-        for(EstudianteEntity res:estudiantes){
+        List<EstudianteEntity> estudiantes = estudianteRepository.listEstudiantesActivos();
+        List<EstudianteResponse> response = new ArrayList<>();
+        for (EstudianteEntity res : estudiantes) {
             response.add(estudianteMapping.entityToResponse(res));
         }
         return response;
@@ -54,11 +55,11 @@ public class EstudianteServiceImpl implements EstudianteService {
 
     @Override
     public EstudianteResponse estudiante(Long id) {
-        System.out.println("en el servicio"+ id);
+        System.out.println("en el servicio" + id);
         Optional<EstudianteEntity> estudiante = estudianteRepository.EstudiantePorId(id);
-        if(estudiante.isPresent()){
+        if (estudiante.isPresent()) {
             return estudianteMapping.entityToResponse(estudiante.get());
-        }else{
+        } else {
             throw new UsuarioNoExist(id.toString());
         }
     }
@@ -100,7 +101,10 @@ public class EstudianteServiceImpl implements EstudianteService {
     private boolean existeRol(List<RoleEntity> roles) {
         boolean valor = false;
         for (RoleEntity rol : roles) {
-            valor = rol.getName().equals(Role.ROLE_ADMIN);
+            if (rol.getName().equals(Role.ROLE_ADMIN)) {
+                valor = true;
+                break;
+            }
         }
         return valor;
 

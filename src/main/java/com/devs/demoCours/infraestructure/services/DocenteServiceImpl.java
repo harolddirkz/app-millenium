@@ -24,7 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.*;
 
-import static com.devs.demoCours.utils.Role.*;
+import static com.devs.demoCours.utils.Role.ROLE_STUDENT;
+import static com.devs.demoCours.utils.Role.ROLE_TEACH;
 
 @Service
 @AllArgsConstructor
@@ -132,7 +133,7 @@ public class DocenteServiceImpl implements DocenteService {
     El IdAdmin e idDocente pertenecen al mismo docente
     */
     @Override
-    public Map<String,Object> deleteDocente(Long idAdmin, Long idDocente) {
+    public Map<String, Object> deleteDocente(Long idAdmin, Long idDocente) {
         Optional<DocenteEntity> docenteBd = docenteRepository.buscarPorIdAndStatus(idDocente);
         Optional<DocenteEntity> docenteAdmin = docenteRepository.buscarPorIdAndStatus(idAdmin);
         Map<String, Object> response = new HashMap<>();
@@ -185,7 +186,11 @@ public class DocenteServiceImpl implements DocenteService {
     private boolean existeRol(List<RoleEntity> roles) {
         boolean valor = false;
         for (RoleEntity rol : roles) {
-            valor = rol.getName().equals(Role.ROLE_ADMIN);
+            if (rol.getName().equals(Role.ROLE_ADMIN)) {
+                valor = true;
+                break;
+            }
+
         }
         return valor;
 
