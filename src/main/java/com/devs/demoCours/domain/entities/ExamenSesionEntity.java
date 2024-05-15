@@ -3,6 +3,7 @@ package com.devs.demoCours.domain.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 @Entity(name = "examen_sesion")
 public class ExamenSesionEntity implements Serializable {
     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +39,7 @@ public class ExamenSesionEntity implements Serializable {
     relacion con la entidad PreguntaExamen
      */
     @OneToMany(mappedBy = "examenSesion",cascade = CascadeType.ALL,orphanRemoval = true)
-    @JsonIgnore
+
     private List<PreguntaExamenEntity> preguntaExamenEntityList;
 
 }

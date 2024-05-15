@@ -12,16 +12,24 @@ import java.util.List;
 @Component
 @AllArgsConstructor
 public class RolHelper {
-    public boolean esAdmin(List<RoleEntity> roles){
+    public boolean esAdmin(List<RoleEntity> roles) {
         boolean valor = false;
         for (RoleEntity rol : roles) {
             if (rol.getName().equals(Role.ROLE_ADMIN)) {
                 valor = true;
                 break;
             }
-
         }
-        System.out.println(valor);
+        return valor;
+    }
+    public boolean esDocente(List<RoleEntity> roles) {
+        boolean valor = false;
+        for (RoleEntity rol : roles) {
+            if (rol.getName().equals(Role.ROLE_TEACH)) {
+                valor = true;
+                break;
+            }
+        }
         return valor;
     }
 }
