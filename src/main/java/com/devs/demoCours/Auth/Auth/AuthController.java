@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -14,18 +16,19 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping(value = "login")
-    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request)
+    public ResponseEntity<Map<String,Object>> login(@RequestBody LoginRequest request)
     {
         return ResponseEntity.ok(authService.login(request));
     }
 
     @PostMapping(value = "register/estudiante")
-    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request)
+    public ResponseEntity<Map<String,Object>> register(@RequestBody RegisterRequest request)
     {
         return ResponseEntity.ok(authService.registerEstudiante(request));
     }
+    /*
     @PostMapping(value = "register/docente")
     public ResponseEntity<AuthResponse> registerDocente(@RequestBody RegisterRequest request){
         return  ResponseEntity.ok(authService.registerDocente(request));
-    }
+    }*/
 }

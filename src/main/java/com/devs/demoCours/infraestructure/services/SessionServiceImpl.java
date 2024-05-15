@@ -2,13 +2,12 @@ package com.devs.demoCours.infraestructure.services;
 
 import com.devs.demoCours.api.models.request.SessionCreateRequest;
 import com.devs.demoCours.api.models.request.SessionUpdateRequest;
+import com.devs.demoCours.api.models.responses.response.SessionCompleteResponse;
 import com.devs.demoCours.api.models.responses.response.SessionResponse;
-import com.devs.demoCours.domain.entities.CursoEntity;
-import com.devs.demoCours.domain.entities.DocenteEntity;
-import com.devs.demoCours.domain.entities.RoleEntity;
-import com.devs.demoCours.domain.entities.SesionEntity;
+import com.devs.demoCours.domain.entities.*;
 import com.devs.demoCours.domain.repositories.CursoRepository;
 import com.devs.demoCours.domain.repositories.DocenteRepository;
+import com.devs.demoCours.domain.repositories.InscriptionRepository;
 import com.devs.demoCours.domain.repositories.SessionRepository;
 import com.devs.demoCours.infraestructure.abstractServices.SessionService;
 import com.devs.demoCours.infraestructure.helpers.RolHelper;
@@ -23,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @AllArgsConstructor
@@ -32,6 +32,7 @@ public class SessionServiceImpl implements SessionService {
     private SessionRepository sessionRepository;
     private DocenteRepository docenteRepository;
     private CursoRepository cursoRepository;
+    private InscriptionRepository inscriptionRepository;
     private final RolHelper rolhelper;
     private final SessionHelper sessionHelper;
     private final SessionMapping sessionMapping;
@@ -74,11 +75,19 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public SessionResponse session(Long idSession) {
-        SesionEntity session = sessionRepository.findById(idSession).orElseThrow(() -> new IdNoExist(idSession.toString(), "Sesión"));
+    public SessionCompleteResponse session(Long idSession, Long idCurso, Long idEstudiante) {
+        Optional<InscripcionEntity> inscription = inscriptionRepository.buscarPorIdCursoAndIdStudent(idCurso,idEstudiante);
+        if(inscription.isPresent()){
+            SesionEntity session = sessionRepository.findById(idSession).orElseThrow(() -> new IdNoExist(idSession.toString(), "Sesión"));
 
-        return sessionMapping.entityToResponse(session);
+            return sessionMapping.entityToResponseComplete(session);
+        }else {
+            throw new UsuarioNoAutorizado(idEstudiante.toString());
+        }
+
     }
+
+
 
     @Override
     public SessionResponse editSession(Long idAdmin, SessionUpdateRequest request) {

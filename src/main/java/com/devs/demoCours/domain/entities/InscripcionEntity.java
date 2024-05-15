@@ -3,6 +3,7 @@ package com.devs.demoCours.domain.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 @Entity(name = "inscripcion")
 public class InscripcionEntity implements Serializable {
     @Id
@@ -32,17 +34,16 @@ public class InscripcionEntity implements Serializable {
     /*
     * relacion con la entidad Curso
      */
-    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @ManyToOne(fetch = FetchType.EAGER,optional = false)
     @JoinColumn(name = "curso_id")
-    @JsonIgnore
+
     private CursoEntity curso;
 
     /*
     relacion con la entidad Estudiante
      */
-    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @ManyToOne(fetch = FetchType.EAGER,optional = false)
     @JoinColumn(name = "estudiante_id")
-    @JsonIgnore
     private EstudianteEntity estudiante;
 
 

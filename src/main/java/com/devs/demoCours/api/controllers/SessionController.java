@@ -2,6 +2,7 @@ package com.devs.demoCours.api.controllers;
 
 import com.devs.demoCours.api.models.request.SessionCreateRequest;
 import com.devs.demoCours.api.models.request.SessionUpdateRequest;
+import com.devs.demoCours.api.models.responses.response.SessionCompleteResponse;
 import com.devs.demoCours.api.models.responses.response.SessionResponse;
 import com.devs.demoCours.infraestructure.abstractServices.SessionService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,10 +29,10 @@ public class SessionController {
     public ResponseEntity<List<SessionResponse>> listarSessions(@RequestParam Long idCurso){
         return ResponseEntity.ok(sessionService.listSessionForCurso(idCurso));
     }
-    @Operation(summary = "obtener sesión",description = "retornará una sesión")
+    @Operation(summary = "obtener sesión",description = "retornará una sesión con toda su información incluido el material")
     @GetMapping(value = "session")
-    public ResponseEntity<SessionResponse> session(@RequestParam Long idSession){
-        return ResponseEntity.ok(sessionService.session(idSession));
+    public ResponseEntity<SessionCompleteResponse> session(@RequestParam Long idSession, @RequestParam Long idCurso, @RequestParam Long idEstudiante){
+        return ResponseEntity.ok(sessionService.session(idSession,idCurso,idEstudiante));
     }
     @Operation(summary = "editar sesión",description = "editar una sesión, se requiere el id de un admin y el SessionUpdateRequest")
     @PutMapping(value = "update")

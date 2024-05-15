@@ -48,18 +48,20 @@ public class CursoEntity implements Serializable {
     /*
     * relación con la Entidad Detalle-Curso
     */
-    @OneToMany(mappedBy = "curso",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "curso",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<DetalleCursoEntity> detalleCurso;
 
     /*
     * relación con la entidad Sesión
     */
-    @OneToMany(mappedBy = "curso",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "curso",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
+
     private List<SesionEntity> sesionEntityList;
     /*
     Relación con la Entidad Inscripción
      */
     @OneToMany(mappedBy = "curso",fetch = FetchType.LAZY,orphanRemoval = true)
+    @JsonIgnore
     private List<InscripcionEntity> inscripcionEntities;
 }

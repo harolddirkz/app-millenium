@@ -7,10 +7,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface SessionRepository extends JpaRepository<SesionEntity,Long> {
     @Query("select s from sesion s where s.curso.idCurso =:idCurso")
     List<SesionEntity> listSession(@Param("idCurso")Long idCurso);
+
+
 
 }

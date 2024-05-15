@@ -30,5 +30,5 @@ public class CursoResponse {
     private ModalidadCurso modalidad;
     @Schema(example = "8")
     private Integer duration;
-    private List<SessionResponse> sesionEntityList;
+    //private List<SessionResponse> sesionEntityList;
 }

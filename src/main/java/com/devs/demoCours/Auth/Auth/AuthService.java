@@ -17,10 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static com.devs.demoCours.utils.Role.ROLE_STUDENT;
 import static com.devs.demoCours.utils.Role.ROLE_TEACH;
@@ -36,7 +33,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final RoleRepository roleRepository;
 
-    public AuthResponse login(LoginRequest request) {
+    public Map<String,Object> login(LoginRequest request) {
         Optional<DocenteEntity> docente =docenteRepository.buscarPorEmail(request.correo);
         UserDetails userDetails =null;
         if (docente.isPresent()){
@@ -46,12 +43,10 @@ public class AuthService {
         }
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getCorreo(), request.getPassword()));
-        String token=jwtService.getToken(userDetails);
-        return AuthResponse.builder()
-                .token(token)
-                .build();
 
-    }
+        return  jwtService.getToken(userDetails);
+
+    }/*
     public AuthResponse registerDocente(RegisterRequest request) {
         RoleEntity rol = roleRepository.findByName(ROLE_TEACH).orElseThrow();
         List<RoleEntity> roles=new ArrayList<>();
@@ -64,7 +59,6 @@ public class AuthService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .status(true)
                 .activo(true)
-                .especialidad("derecho Penal")
                 .roles(roles)
                 .build();
         docenteRepository.save(docente);
@@ -73,9 +67,9 @@ public class AuthService {
                 .token(jwtService.getToken(docente))
                 .build();
 
-    }
+    }*/
 
-    public AuthResponse registerEstudiante(RegisterRequest request) {
+    public Map<String,Object> registerEstudiante(RegisterRequest request) {
         RoleEntity rol = roleRepository.findByName(ROLE_STUDENT).orElseThrow();
         List<RoleEntity> roles=new ArrayList<>();
         roles.add(rol);
@@ -90,10 +84,8 @@ public class AuthService {
                 .roles(roles)
                 .build();
         estudianteRepository.save(estudiante);
+        return  jwtService.getToken(estudiante);
 
-        return AuthResponse.builder()
-                .token(jwtService.getToken(estudiante))
-                .build();
 
     }
 

@@ -29,7 +29,7 @@ public class SesionEntity implements Serializable {
     private String material;
 
     //relacion con la Entidad ExamenSesion
-    @OneToMany(mappedBy = "sesion",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "sesion",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
     @JsonIgnore
     private List<ExamenSesionEntity> examenSesionEntityList;
 
@@ -42,6 +42,7 @@ public class SesionEntity implements Serializable {
      */
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "docente_id")
+
     private DocenteEntity docente;
     /*
     Relacion con la entidad MaterialEducativo

@@ -9,13 +9,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Data
 public class SessionResponse {
-    private Long id;
     private Integer numOrden;
     private LocalDateTime inicioSesion;
     private LocalDateTime finalSesion;
-    /* private String material;
-    private CursoResponse curso;
-    */
+    private String descripcion;
     private DocenteResponse docente;
 
 }

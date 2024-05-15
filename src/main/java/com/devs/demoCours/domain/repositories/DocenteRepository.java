@@ -23,4 +23,7 @@ public interface DocenteRepository extends JpaRepository<DocenteEntity,Long> {
     @Query("select d from docente  d where d.activo=true and d.status = true")
     List<DocenteEntity> listarDocentesActivos();
 
+    @Query("select d.roles from docente  d where d.idPersona=:idAdmin")
+    List<RoleEntity> listarDocentesRoles(@Param("idAdmin") Long idAdmin);
+
 }
