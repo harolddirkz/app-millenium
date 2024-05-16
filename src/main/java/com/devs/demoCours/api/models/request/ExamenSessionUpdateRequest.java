@@ -4,20 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-import java.time.Duration;
 import java.time.LocalDate;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ExamenSessionCreateRequest implements Serializable {
-
+public class ExamenSessionUpdateRequest {
+    private Long id;
     private String detalles;
     private LocalDate fechaExamen;
     private Long idSession;
     private Integer duration;
-
-
-
 }

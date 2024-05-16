@@ -61,7 +61,7 @@ public class DocenteServiceImpl implements DocenteService {
                         .lastName(request.getLastName())
                         .email(request.getEmail())
                         .password(passwordEncoder.encode(request.getPassword()))
-                        .fechaIncripcion(LocalDate.now())
+                        .fechaInscription(LocalDate.now())
                         .status(true)
                         .roles(roles)
                         .build();
@@ -91,7 +91,7 @@ public class DocenteServiceImpl implements DocenteService {
             docenteUpdate.setGenero(request.getGenero());
             docenteUpdate.setBirthDate(request.getBirthDate());
             docenteUpdate.setEspecialidad(request.getEspecialidad());
-            docenteUpdate.setResenia(request.getResenia());
+            docenteUpdate.setReview(request.getReview());
             docenteRepository.save(docenteUpdate);
             return docenteMapping.entityToResponse(docenteUpdate);
 

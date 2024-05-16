@@ -3,13 +3,13 @@ package com.devs.demoCours.domain.entities;
 import com.devs.demoCours.utils.Genero;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
-import java.util.List;
+
 
 @MappedSuperclass
 @Data

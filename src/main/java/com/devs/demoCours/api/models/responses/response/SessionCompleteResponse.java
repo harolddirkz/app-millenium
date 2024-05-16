@@ -12,10 +12,10 @@ import java.time.LocalDateTime;
 public class SessionCompleteResponse {
     private Long id;
     private Integer numOrden;
-    private LocalDateTime inicioSesion;
-    private LocalDateTime finalSesion;
+    private LocalDateTime inicioSession;
+    private LocalDateTime finalSession;
     private String material;
     //private CursoResponse curso;
-    private String descripcion;
+    private String description;
     private DocenteResponse docente;
 }

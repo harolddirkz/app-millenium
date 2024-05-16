@@ -27,9 +27,10 @@ public class AuthController {
     {
         return ResponseEntity.ok(authService.registerEstudiante(request));
     }
-    /*
+/*
     @PostMapping(value = "register/docente")
-    public ResponseEntity<AuthResponse> registerDocente(@RequestBody RegisterRequest request){
+    public ResponseEntity<Map<String,Object>> registerDocente(@RequestBody RegisterRequest request){
         return  ResponseEntity.ok(authService.registerDocente(request));
     }*/
+
 }

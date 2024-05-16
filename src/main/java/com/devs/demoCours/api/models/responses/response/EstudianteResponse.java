@@ -25,5 +25,5 @@ public class EstudianteResponse {
     @Schema(example = "MASCULINO")
     private Genero genero;
     @Schema(example = "Soy un estudiante con miras al futuro...")
-    private String resenia;
+    private String review;
 }

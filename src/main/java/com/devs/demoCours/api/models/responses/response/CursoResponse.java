@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,5 +30,5 @@ public class CursoResponse {
     private ModalidadCurso modalidad;
     @Schema(example = "8")
     private Integer duration;
-    //private List<SessionResponse> sesionEntityList;
+    //private List<SessionResponse> sessionEntityList;
 }

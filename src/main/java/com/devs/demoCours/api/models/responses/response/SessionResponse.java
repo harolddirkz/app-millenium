@@ -10,9 +10,9 @@ import java.time.LocalDateTime;
 @Data
 public class SessionResponse {
     private Integer numOrden;
-    private LocalDateTime inicioSesion;
-    private LocalDateTime finalSesion;
-    private String descripcion;
+    private LocalDateTime inicioSession;
+    private LocalDateTime finalSession;
+    private String description;
     private DocenteResponse docente;
 
 }

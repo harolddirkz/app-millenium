@@ -32,6 +32,6 @@ public class EstudianteUpdateRequest implements Serializable {
     @Schema(example = "1999-11-05")
     private LocalDate birthDate;
     @Schema(example = "Soy un estudiante con miras al futuro")
-    private String resenia;
+    private String review;
 
 }

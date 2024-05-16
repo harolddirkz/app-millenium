@@ -45,16 +45,16 @@ public class SessionServiceImpl implements SessionService {
         List<RoleEntity> roles = docenteAdmin.getRoles();
 
         if (rolhelper.esAdmin(roles)) {
-            Integer numOrden = sessionHelper.numOrden(curso.getSesionEntityList());
-            SesionEntity session = SesionEntity.builder()
+            Integer numOrden = sessionHelper.numOrden(curso.getSessionEntityList());
+            SessionEntity session = SessionEntity.builder()
                     .docente(docenteSession)
                     .curso(curso)
-                    .descripcion(request.getDescripcion())
+                    .description(request.getDescription())
                     .material(request.getMaterial())
                     .numOrden(numOrden)
                     .status(request.isStatus())
-                    .inicioSesion(request.getInicioSesion())
-                    .finalSesion(request.getFinalSesion())
+                    .inicioSession(request.getInicioSession())
+                    .finalSession(request.getFinalSession())
                     .build();
             sessionRepository.save(session);
             return sessionMapping.entityToResponse(session);
@@ -66,9 +66,9 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public List<SessionResponse> listSessionForCurso(Long idCurso) {
-        List<SesionEntity> listSessions = sessionRepository.listSession(idCurso);
+        List<SessionEntity> listSessions = sessionRepository.listSession(idCurso);
         List<SessionResponse> response = new ArrayList<>();
-        for (SesionEntity session : listSessions) {
+        for (SessionEntity session : listSessions) {
             response.add(sessionMapping.entityToResponse(session));
         }
         return response;
@@ -76,9 +76,9 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public SessionCompleteResponse session(Long idSession, Long idCurso, Long idEstudiante) {
-        Optional<InscripcionEntity> inscription = inscriptionRepository.buscarPorIdCursoAndIdStudent(idCurso,idEstudiante);
+        Optional<InscriptionEntity> inscription = inscriptionRepository.buscarPorIdCursoAndIdStudent(idCurso,idEstudiante);
         if(inscription.isPresent()){
-            SesionEntity session = sessionRepository.findById(idSession).orElseThrow(() -> new IdNoExist(idSession.toString(), "Sesión"));
+            SessionEntity session = sessionRepository.findById(idSession).orElseThrow(() -> new IdNoExist(idSession.toString(), "Sesión"));
 
             return sessionMapping.entityToResponseComplete(session);
         }else {
@@ -90,19 +90,21 @@ public class SessionServiceImpl implements SessionService {
 
 
     @Override
-    public SessionResponse editSession(Long idAdmin, SessionUpdateRequest request) {
+    public SessionCompleteResponse editSession(Long idAdmin, SessionUpdateRequest request) {
         Long idSession = request.getId();
-        SesionEntity sessionDb = sessionRepository.findById(idSession).orElseThrow(() -> new IdNoExist(idSession.toString(), "Sesión"));
+        SessionEntity sessionDb = sessionRepository.findById(idSession).orElseThrow(() -> new IdNoExist(idSession.toString(), "Sesión"));
         DocenteEntity docenteDb = docenteRepository.buscarPorIdAndStatus(idAdmin).orElseThrow(()->new UsuarioNoExist(idAdmin.toString()));
+        DocenteEntity docente = docenteRepository.buscarPorIdAndStatus(request.getIdDocente()).orElseThrow(()->new UsuarioNoExist(request.getIdDocente().toString()));
         List<RoleEntity> roles = docenteDb.getRoles();
         if(rolhelper.esAdmin(roles)){
-            sessionDb.setDescripcion(request.getDescripcion());
+            sessionDb.setDescription(request.getDescription());
             sessionDb.setMaterial(request.getMaterial());
             sessionDb.setStatus(request.isStatus());
-            sessionDb.setInicioSesion(request.getInicioSesion());
-            sessionDb.setFinalSesion(request.getFinalSesion());
+            sessionDb.setDocente(docente);
+            sessionDb.setInicioSession(request.getInicioSession());
+            sessionDb.setFinalSession(request.getFinalSession());
             sessionRepository.save(sessionDb);
-            return sessionMapping.entityToResponse(sessionDb);
+            return sessionMapping.entityToResponseComplete(sessionDb);
 
         }else {
             throw new UsuarioNoAutorizado(idAdmin.toString());

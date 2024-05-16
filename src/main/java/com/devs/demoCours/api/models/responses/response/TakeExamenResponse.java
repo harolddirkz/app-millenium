@@ -5,12 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class InscriptionResponse implements Serializable {
-    private Long idInscription;
-    private LocalDateTime fechaInscription;
-    private CursoResponse curso;
+public class TakeExamenResponse implements Serializable {
+    private Long idTakeExamen;
+    private Float punctuation;
+    private Integer intentos;
+
 }

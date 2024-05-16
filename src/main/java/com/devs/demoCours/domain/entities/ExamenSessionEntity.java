@@ -15,30 +15,31 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
-@Entity(name = "examen_sesion")
-public class ExamenSesionEntity implements Serializable {
+@Entity(name = "examen_session")
+public class ExamenSessionEntity implements Serializable {
     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_examen_sesion")
-    private Integer idExamenSesion;
+    @Column(name = "id_examen_session")
+    private Integer idExamenSession;
     @Column(name = "detalles",length = 100,nullable = false)
     private String Detalles;
     @Column(name = "fecha_examen",length =10)
     private LocalDate fechaExamen;
+    private Integer  duration;
 
 
-    //relacion con la Entidad TakeExamen
-    @OneToMany(mappedBy = "examenSesion",cascade = CascadeType.ALL,orphanRemoval = true)
+    //relación con la Entidad TakeExamen
+    @OneToMany(mappedBy = "examenSession",cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonIgnore
     private List<TakeExamenEntity> takeExamenEntityList;
-    //relacion con la Entidad Sesion
+    //relación con la Entidad Session
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "sesion_id")
+    @JoinColumn(name = "session_id")
     @JsonIgnore
-    private SesionEntity sesion;
+    private SessionEntity session;
     /*
-    relacion con la entidad PreguntaExamen
+    relación con la entidad PreguntaExamen
      */
-    @OneToMany(mappedBy = "examenSesion",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "examenSession",cascade = CascadeType.ALL,orphanRemoval = true)
 
     private List<PreguntaExamenEntity> preguntaExamenEntityList;
 

@@ -11,6 +11,6 @@ public interface SessionService {
     SessionResponse crearSession(Long idAdmin, SessionCreateRequest request);
     List<SessionResponse> listSessionForCurso(Long idCurso);
     SessionCompleteResponse session(Long idSession, Long idCurso, Long idEstudiante);
-    SessionResponse editSession(Long idAdmin, SessionUpdateRequest request);
+    SessionCompleteResponse editSession(Long idAdmin, SessionUpdateRequest request);
 
 }

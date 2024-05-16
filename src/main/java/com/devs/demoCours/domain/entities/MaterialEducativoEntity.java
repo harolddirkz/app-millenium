@@ -14,14 +14,14 @@ public class MaterialEducativoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_material_educativo")
     private Integer idMaterialEducativo;
-    @Column(name = "descripcion",nullable = false)
-    private String Descripcion;
+    @Column(name = "description",nullable = false)
+    private String Description;
     private String tipo;
     private String enlace;
     /*
-    Relacion con la Entidad Sesion
+    Relación con la Entidad Session
      */
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "sesion_id")
-    private SesionEntity sesion;
+    @JoinColumn(name = "session_id")
+    private SessionEntity session;
 }

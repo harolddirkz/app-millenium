@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
 import java.util.List;
 
 @AllArgsConstructor
@@ -18,18 +16,16 @@ public class PreguntaExamenEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idPreguntaExamen;
     private String pregunta;
-    private Integer  duracion;
-    private LocalDate fecha;
 
     /*
-    Relacion con la Entidad ExamenSesion
+    Relación con la Entidad ExamenSession
      */
     @ManyToOne(cascade = CascadeType.ALL,optional = false)
-    @JoinColumn(name = "examen_sesion_id")
-    private ExamenSesionEntity examenSesion;
+    @JoinColumn(name = "examen_session_id")
+    private ExamenSessionEntity examenSession;
 
     /*
-    relacion con la EntidadAlternativa;
+    relación con la EntidadAlternativa;
     */
     @OneToMany(mappedBy = "preguntaExamen",cascade =  CascadeType.ALL,orphanRemoval = true)
     @JsonIgnore

@@ -2,7 +2,7 @@ package com.devs.demoCours.api.models.request;
 
 import com.devs.demoCours.utils.Genero;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
@@ -35,5 +35,5 @@ public class DocenteUpdateRequest implements Serializable {
     @Schema(example = "Abogado",nullable = true)
     private String especialidad;
     @Schema(example = "Abogado con 20 años de experiencia...",nullable = true)
-    private String resenia;
+    private String review;
 }

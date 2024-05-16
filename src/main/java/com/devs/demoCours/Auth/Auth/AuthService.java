@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 import static com.devs.demoCours.utils.Role.ROLE_STUDENT;
+import static com.devs.demoCours.utils.Role.ROLE_TEACH;
 
 @Service
 @RequiredArgsConstructor
@@ -45,8 +46,8 @@ public class AuthService {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getCorreo(), request.getPassword()));
         return  jwtService.getToken(userDetails);
 
-    }/*
-    public AuthResponse registerDocente(RegisterRequest request) {
+    }
+    public Map<String,Object> registerDocente(RegisterRequest request) {
         RoleEntity rol = roleRepository.findByName(ROLE_TEACH).orElseThrow();
         List<RoleEntity> roles=new ArrayList<>();
         roles.add(rol);
@@ -62,11 +63,10 @@ public class AuthService {
                 .build();
         docenteRepository.save(docente);
 
-        return AuthResponse.builder()
-                .token(jwtService.getToken(docente))
-                .build();
+        return (jwtService.getToken(docente));
 
-    }*/
+
+    }
 
     public Map<String,Object> registerEstudiante(RegisterRequest request) {
         Optional<EstudianteEntity> estudianteExist = estudianteRepository.existeEstudiante(request.getDni());
@@ -84,7 +84,7 @@ public class AuthService {
                         .lastName(request.getLastname())
                         .password(passwordEncoder.encode(request.getPassword()))
                         .status(true)
-                        .fechaIncripcion(LocalDate.now())
+                        .fechaInscription(LocalDate.now())
                         .roles(roles)
                         .build();
                 estudianteRepository.save(estudiante);

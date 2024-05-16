@@ -35,7 +35,7 @@ public class EstudianteServiceImpl implements EstudianteService {
             estudianteUpdate.setAvatar(request.getAvatar());
             estudianteUpdate.setGenero(request.getGenero());
             estudianteUpdate.setBirthDate(request.getBirthDate());
-            estudianteUpdate.setResenia(request.getResenia());
+            estudianteUpdate.setReview(request.getReview());
             estudianteRepository.save(estudianteUpdate);
             return estudianteMapping.entityToResponse(estudianteUpdate);
         } else {

@@ -74,4 +74,14 @@ public class BadRequestController {
                 .build();
 
     }
+
+    @ExceptionHandler(IdDuplicate.class)
+    public ErrorResponse IdDuplicado(IdDuplicate exception) {
+        return ErrorResponse.builder()
+                .message(exception.getMessage())
+                .status(HttpStatus.BAD_REQUEST.name())
+                .code(HttpStatus.BAD_REQUEST.value())
+                .build();
+
+    }
 }

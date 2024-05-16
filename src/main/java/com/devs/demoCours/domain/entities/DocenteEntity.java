@@ -1,6 +1,5 @@
 package com.devs.demoCours.domain.entities;
 
-import com.devs.demoCours.utils.Genero;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,7 +12,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,15 +25,15 @@ import java.util.stream.Collectors;
 public class DocenteEntity extends Persona implements Serializable, UserDetails {
     @Column(name = "especialidad_docente", length = 40)
     private String especialidad;
-    @Column(name = "resenia", length = 500)
-    private String resenia;
+    @Column(name = "review", length = 500)
+    private String review;
     private boolean activo;
     /*
-    Relacion con la entidad Sesion
+    Relación con la entidad Sesión
      */
     @OneToMany(mappedBy = "docente",fetch = FetchType.LAZY,orphanRemoval = true)
     @JsonIgnore
-    private List<SesionEntity> sesionEntityList;
+    private List<SessionEntity> sessionEntityList;
 
     /*relation with roles*/
     @ManyToMany(cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)

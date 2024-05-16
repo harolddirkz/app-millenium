@@ -21,15 +21,15 @@ public class SessionUpdateRequest {
     @NotNull(message = "la descripción es obligatorio")
     @NotBlank(message = "tiene que ingresar la descripción ")
     @Schema(example = "este tema se tratará sobre los derechos ...")
-    private String descripcion;
+    private String description;
     private String material;
     @NotNull(message = "el status del curso es obligatorio")
     @Schema(example = "true")
     private boolean status;
     @NotNull(message = "ingrese la fecha de inicio")
     @Schema(example = "1")
-    private LocalDateTime inicioSesion;
+    private LocalDateTime inicioSession;
     @NotNull(message = "ingrese la fecha de culminación")
     @Schema(example = "1")
-    private LocalDateTime finalSesion;
+    private LocalDateTime finalSession;
 }

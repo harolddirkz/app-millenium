@@ -36,7 +36,7 @@ public class SessionController {
     }
     @Operation(summary = "editar sesión",description = "editar una sesión, se requiere el id de un admin y el SessionUpdateRequest")
     @PutMapping(value = "update")
-    public ResponseEntity<SessionResponse> update(@Valid @RequestBody SessionUpdateRequest request,Long idAdmin){
+    public ResponseEntity<SessionCompleteResponse> update(@Valid @RequestBody SessionUpdateRequest request,@RequestParam Long idAdmin){
         return ResponseEntity.ok(sessionService.editSession(idAdmin,request));
     }
 

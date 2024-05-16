@@ -9,11 +9,9 @@ import com.devs.demoCours.infraestructure.helpers.RolHelper;
 import com.devs.demoCours.utils.exeptions.IdNoExist;
 import com.devs.demoCours.utils.exeptions.UsuarioNoAutorizado;
 import com.devs.demoCours.utils.exeptions.UsuarioNoExist;
-import com.devs.demoCours.utils.mapper.EstudianteMapping;
 import com.devs.demoCours.utils.mapper.InscriptionMapping;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -38,15 +36,15 @@ public class InscriptionServiceImpl implements InscriptionService {
         Long idEstudiante = request.getEstudianteId();
         CursoEntity curso = cursoRepository.obtenerCurso(idCurso).orElseThrow(() -> new IdNoExist(idCurso.toString(), "Curso"));
         EstudianteEntity estudiante = estudianteRepository.EstudiantePorId(idEstudiante).orElseThrow(() -> new UsuarioNoExist(idEstudiante.toString()));
-        Optional<InscripcionEntity> inscriptionExist =inscriptionRepository.buscarPorIdCursoAndIdStudent(idCurso,idEstudiante);
+        Optional<InscriptionEntity> inscriptionExist =inscriptionRepository.buscarPorIdCursoAndIdStudent(idCurso,idEstudiante);
 
         List<RoleEntity> roles = docenteRepository.listarDocentesRoles(idAdmin);
         if (inscriptionExist.isEmpty()){
             if (rolHelper.esAdmin(roles)) {
-                InscripcionEntity inscription = InscripcionEntity.builder()
+                InscriptionEntity inscription = InscriptionEntity.builder()
                         .estado(true)
-                        .calificacion(0f)
-                        .fechaInscripcion(LocalDateTime.now())
+                        .qualification(0f)
+                        .fechaInscription(LocalDateTime.now())
                         .curso(curso)
                         .estudiante(estudiante)
                         .build();
@@ -65,9 +63,9 @@ public class InscriptionServiceImpl implements InscriptionService {
 
     @Override
     public List<InscriptionResponse> listarInscription(Long idEstudiante) {
-        List<InscripcionEntity> inscriptions = inscriptionRepository.inscriptionsByDniStudent(idEstudiante);
+        List<InscriptionEntity> inscriptions = inscriptionRepository.inscriptionsByDniStudent(idEstudiante);
         List<InscriptionResponse> response =new ArrayList<>();
-        for (InscripcionEntity inscription:inscriptions){
+        for (InscriptionEntity inscription:inscriptions){
             response.add(inscriptionMapping.entityToResponse(inscription));
         }
             return response;

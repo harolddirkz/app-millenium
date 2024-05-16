@@ -3,7 +3,6 @@ package com.devs.demoCours.api.controllers;
 import com.devs.demoCours.api.models.request.DocenteCreateRequest;
 import com.devs.demoCours.api.models.request.DocenteUpdateRequest;
 import com.devs.demoCours.api.models.responses.response.DocenteResponse;
-import com.devs.demoCours.domain.entities.DocenteEntity;
 import com.devs.demoCours.infraestructure.abstractServices.DocenteService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;

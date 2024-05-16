@@ -15,24 +15,24 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Builder
-@Entity(name = "inscripcion")
-public class InscripcionEntity implements Serializable {
+@Entity(name = "inscription")
+public class InscriptionEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_Descripcion")
-    private Integer idInscripcion;
-    private LocalDateTime fechaInscripcion;
+    @Column(name = "id_Inscription")
+    private Integer idInscription;
+    private LocalDateTime fechaInscription;
     private boolean estado;
-    private Float calificacion;
+    private Float qualification;
 
     /*
-    * relacion con la Entidad TakeExamen
+    * relación con la Entidad TakeExamen
      */
-    @OneToMany(mappedBy = "inscripcion",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "inscription",cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonIgnore
-    private List<TakeExamenEntity> takeExamanEntities;
+    private List<TakeExamenEntity> takeExamEntities;
     /*
-    * relacion con la entidad Curso
+    * relación con la entidad Curso
      */
     @ManyToOne(fetch = FetchType.EAGER,optional = false)
     @JoinColumn(name = "curso_id")
@@ -40,7 +40,7 @@ public class InscripcionEntity implements Serializable {
     private CursoEntity curso;
 
     /*
-    relacion con la entidad Estudiante
+    relación con la entidad Estudiante
      */
     @ManyToOne(fetch = FetchType.EAGER,optional = false)
     @JoinColumn(name = "estudiante_id")

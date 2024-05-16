@@ -2,7 +2,6 @@ package com.devs.demoCours.api.controllers;
 
 import com.devs.demoCours.api.models.request.InscriptionCreateRequest;
 import com.devs.demoCours.api.models.responses.response.InscriptionResponse;
-import com.devs.demoCours.domain.entities.InscripcionEntity;
 import com.devs.demoCours.infraestructure.abstractServices.InscriptionService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

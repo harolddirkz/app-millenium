@@ -2,7 +2,7 @@ spring:
   application:
     name: demoCours
   datasource:
-    url: jdbc:mysql://localhost:3306/gestion_cursos
+    url: jdbc:mysql://localhost:3306/management_courses
     username: root
     password: admin
     driver-class-name: com.mysql.cj.jdbc.Driver

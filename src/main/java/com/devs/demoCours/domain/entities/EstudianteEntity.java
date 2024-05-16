@@ -21,24 +21,24 @@ import java.util.stream.Collectors;
 @SuperBuilder()
 @Entity(name = "estudiante")
 public class EstudianteEntity extends Persona implements Serializable, UserDetails {
-    @Column(name = "fecha_inscripcion", nullable = false, length = 10)
-    private LocalDate fechaIncripcion;
-    @Column(name = "resenia", length = 100)
-    private String resenia;
+    @Column(name = "fecha_inscription", nullable = false, length = 10)
+    private LocalDate fechaInscription;
+    @Column(name = "review", length = 100)
+    private String review;
 
     /*
-    relacion con la entidad Inscripcion
+    relación con la entidad Inscripción
      */
     @OneToMany(mappedBy = "estudiante", fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonIgnore
-    private List<InscripcionEntity> inscripcionEntityList;
+    private List<InscriptionEntity> inscriptionEntityList;
 
     /*relation with roles*/
     @ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-    @JoinTable(name = "estudentRoles",
-            joinColumns = @JoinColumn(name = "estudentId"),
+    @JoinTable(name = "estudianteRoles",
+            joinColumns = @JoinColumn(name = "estudianteId"),
             inverseJoinColumns = @JoinColumn(name = "roleId"),
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"estudentId", "roleId"})})
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"estudianteId", "roleId"})})
     private List<RoleEntity> roles;
 
     @Override

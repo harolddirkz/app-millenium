@@ -34,13 +34,13 @@ public class CursoEntity implements Serializable {
     private String detalle;
     @Column(name = "fecha_de_inicio", length = 10)
     private LocalDate fechaInicio;
-    @Column(name = "fecha_de_culminacion", length = 10)
+    @Column(name = "fecha_de_culmination", length = 10)
     private LocalDate fechaFin;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "modalidad",nullable = false)
     private ModalidadCurso modalidad;
-    @Column(name = "duracion",nullable = false)
+    @Column(name = "duration",nullable = false)
     private Integer duration;
     @Column(name = "activo")
     private boolean activo;
@@ -57,11 +57,11 @@ public class CursoEntity implements Serializable {
     */
     @OneToMany(mappedBy = "curso",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
 
-    private List<SesionEntity> sesionEntityList;
+    private List<SessionEntity> sessionEntityList;
     /*
     Relación con la Entidad Inscripción
      */
     @OneToMany(mappedBy = "curso",fetch = FetchType.LAZY,orphanRemoval = true)
     @JsonIgnore
-    private List<InscripcionEntity> inscripcionEntities;
+    private List<InscriptionEntity> inscriptionEntities;
 }
