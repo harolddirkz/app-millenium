@@ -22,4 +22,5 @@ public interface EstudianteRepository extends JpaRepository<EstudianteEntity,Lon
    @Query("select e from estudiante e where e.status=true")
     List<EstudianteEntity> listEstudiantesActivos();
 
+
 }

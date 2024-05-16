@@ -1,5 +1,6 @@
 package com.devs.demoCours.Auth.Auth;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +23,7 @@ public class AuthController {
     }
 
     @PostMapping(value = "register/estudiante")
-    public ResponseEntity<Map<String,Object>> register(@RequestBody RegisterRequest request)
+    public ResponseEntity<Map<String,Object>> register(@Valid @RequestBody RegisterRequest request)
     {
         return ResponseEntity.ok(authService.registerEstudiante(request));
     }

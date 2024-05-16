@@ -21,7 +21,8 @@ public class JwtService {
     public Map<String, Object> getToken(UserDetails user){
         return getToken(new HashMap<>(),user);
     }
-    private Map<String,Object> getToken(Map<String,Object> extraClaims, UserDetails user) {
+    private Map<String,Object> getToken(Map<String,Object> extraClaims, UserDetails user)  {
+
         String username = user.getUsername();
         Collection<? extends GrantedAuthority> roles = user.getAuthorities();
 
@@ -56,6 +57,8 @@ public class JwtService {
     }
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username=getUsernameFromToken(token);
+
+
         return (username.equals(userDetails.getUsername())&& !isTokenExpired(token));
     }
     private Claims getAllClaims(String token)
