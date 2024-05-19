@@ -2,6 +2,7 @@ package com.devs.demoCours.infraestructure.services;
 
 import com.devs.demoCours.api.models.request.ExamenSessionCreateRequest;
 import com.devs.demoCours.api.models.request.ExamenSessionUpdateRequest;
+import com.devs.demoCours.api.models.responses.response.ExamenSessionResponse;
 import com.devs.demoCours.domain.entities.DocenteEntity;
 import com.devs.demoCours.domain.entities.ExamenSessionEntity;
 import com.devs.demoCours.domain.entities.RoleEntity;
@@ -14,9 +15,11 @@ import com.devs.demoCours.infraestructure.helpers.RolHelper;
 import com.devs.demoCours.utils.exeptions.IdNoExist;
 import com.devs.demoCours.utils.exeptions.UsuarioNoAutorizado;
 import com.devs.demoCours.utils.exeptions.UsuarioNoExist;
+import com.devs.demoCours.utils.mapper.ExamenSessionMapping;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,9 +30,10 @@ public class ExamenSessionServiceImpl implements ExamenSessionService {
     private SessionRepository sessionRepository;
     private DocenteRepository docenteRepository;
     private RolHelper rolHelper;
+    private ExamenSessionMapping examenSessionMapping;
 
     @Override
-    public ExamenSessionEntity crear(ExamenSessionCreateRequest request, Long idDocente) {
+    public ExamenSessionResponse crear(ExamenSessionCreateRequest request, Long idDocente) {
         Long idSession = request.getIdSession();
         SessionEntity session = sessionRepository.findById(idSession).orElseThrow(() -> new IdNoExist(idSession.toString(), "Session"));
         Long id = Long.valueOf(session.getDocente().getIdPersona());
@@ -44,7 +48,7 @@ public class ExamenSessionServiceImpl implements ExamenSessionService {
                     .build();
             examenSessionRepository.save(examenSession);
 
-            return examenSession;
+            return examenSessionMapping.entityToResponse(examenSession);
         } else {
             throw new UsuarioNoAutorizado(idDocente.toString());
         }
@@ -53,10 +57,15 @@ public class ExamenSessionServiceImpl implements ExamenSessionService {
     }
 
     @Override
-    public List<ExamenSessionEntity> listarPorSession(Long idSession) {
+    public List<ExamenSessionResponse> listarPorSession(Long idSession) {
         Optional<SessionEntity> session = sessionRepository.findById(idSession);
         if (session.isPresent()) {
-            return examenSessionRepository.buscarPoIdSession(idSession);
+            List<ExamenSessionResponse> response=new ArrayList<>();
+            List<ExamenSessionEntity> exams= examenSessionRepository.buscarPoIdSession(idSession);
+            for(ExamenSessionEntity e:exams){
+                response.add(examenSessionMapping.entityToResponse(e));
+            }
+            return response;
         } else {
             throw new IdNoExist(idSession.toString(), "Sesión");
         }
@@ -64,7 +73,7 @@ public class ExamenSessionServiceImpl implements ExamenSessionService {
     }
 
     @Override
-    public ExamenSessionEntity update(ExamenSessionUpdateRequest request, Long idDocente) {
+    public ExamenSessionResponse update(ExamenSessionUpdateRequest request, Long idDocente) {
         Long idSession = request.getIdSession();
         ExamenSessionEntity examenSession = examenSessionRepository.buscarPorId(request.getId()).orElseThrow(() -> new IdNoExist(request.getId().toString(), "ExamenSession"));
         Optional<SessionEntity> session = sessionRepository.findById(idSession);
@@ -78,7 +87,7 @@ public class ExamenSessionServiceImpl implements ExamenSessionService {
                 examenSession.setDetalles(request.getDetalles());
                 examenSession.setDuration(request.getDuration());
                 examenSessionRepository.save(examenSession);
-                return examenSession;
+                return examenSessionMapping.entityToResponse(examenSession);
 
 
             } else {

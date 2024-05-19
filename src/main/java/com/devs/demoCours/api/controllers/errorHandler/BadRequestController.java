@@ -41,6 +41,14 @@ public class BadRequestController {
                 .build();
 
     }
+    @ExceptionHandler(RuntimeException.class)
+    public ErrorResponse runtimeException(RuntimeException exception) {
+        return ErrorResponse.builder()
+                .message(exception.getMessage())
+                .status(HttpStatus.BAD_REQUEST.name())
+                .code(HttpStatus.BAD_REQUEST.value())
+                .build();
+    }
 
     @ExceptionHandler(UsuarioNoAutorizado.class)
     public ErrorResponse UsuarioNoAutorizado(UsuarioNoAutorizado exception) {
