@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -125,6 +126,12 @@ public class DocenteServiceImpl implements DocenteService {
         } else {
             throw new UsuarioNoExist(id.toString());
         }
+    }
+
+    @Override
+    public DocenteResponse docenteByEmail(String email) {
+        Optional<DocenteEntity> docente=docenteRepository.buscarPorEmail(email);
+        return docente.map(docenteEntity -> docenteMapping.entityToResponse(docenteEntity)).orElse(null);
     }
 
     /*

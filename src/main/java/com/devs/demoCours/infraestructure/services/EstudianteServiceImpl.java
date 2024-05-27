@@ -65,6 +65,14 @@ public class EstudianteServiceImpl implements EstudianteService {
     }
 
     @Override
+    public EstudianteResponse estudianteBYEmail(String email) {
+        Optional<EstudianteEntity> estudiante=estudianteRepository.buscarPorEmail(email);
+
+        return estudiante.map(estudianteEntity -> estudianteMapping.entityToResponse(estudianteEntity)).orElse(null);
+
+    }
+
+    @Override
     public Map<String, Object> deleteEstudiante(Long idAdmin, Long idEstudiante) {
         Optional<EstudianteEntity> estudianteDb = estudianteRepository.EstudiantePorId(idEstudiante);
         Optional<DocenteEntity> docenteAdmin = docenteRepository.buscarPorIdAndStatus(idAdmin);

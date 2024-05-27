@@ -22,7 +22,6 @@ public class JwtService {
         return getToken(new HashMap<>(),user);
     }
     private Map<String,Object> getToken(Map<String,Object> extraClaims, UserDetails user)  {
-
         String username = user.getUsername();
         Collection<? extends GrantedAuthority> roles = user.getAuthorities();
 

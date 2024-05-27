@@ -14,6 +14,7 @@ public interface DocenteService {
     DocenteResponse actualizarDocente(DocenteUpdateRequest request);
     List<DocenteResponse> listDocentes();
     DocenteResponse docente (Long id);
+    DocenteResponse docenteByEmail (String email);
 
     Map<String,Object> deleteDocente(Long idAdmin, Long idDocente);
 }

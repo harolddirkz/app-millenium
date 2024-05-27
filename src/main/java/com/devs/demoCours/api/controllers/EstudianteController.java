@@ -30,11 +30,17 @@ public class EstudianteController {
         return ResponseEntity.ok(estudianteService.listEstudiantes());
     }
 
-    @Operation(summary = "obtener estudiantes", description = "devolverá una un estudiante")
+    @Operation(summary = "obtener estudiante por id", description = "devolverá una un estudiante")
     @GetMapping(value = "usuario")
     public ResponseEntity<EstudianteResponse> estudiante(@RequestParam Long id) {
-        System.out.println(id);
+
         return ResponseEntity.ok(estudianteService.estudiante(id));
+    }
+    @Operation(summary = "obtener estudiante por id", description = "devolverá una un estudiante")
+    @GetMapping(value = "usuario/email")
+    public ResponseEntity<EstudianteResponse> estudianteByEmail(@RequestParam String email) {
+
+        return ResponseEntity.ok(estudianteService.estudianteBYEmail(email));
     }
 
     @Operation(summary = "borrar estudiante", description = "eliminar estudiante(modificará el estado de un estudiante a falce)")

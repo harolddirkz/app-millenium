@@ -36,10 +36,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authRequest ->
                         authRequest
                                 .requestMatchers("/auth/**").permitAll()
+                                //.requestMatchers(HttpMethod.GET,"docente/docente/email").permitAll()
+                                //.requestMatchers(HttpMethod.GET,"estudiante/usuario/email").permitAll()
                                 .requestMatchers("/swagger-ui/**",
                                         "/swagger-resources/*",
                                         "/v3/api-docs/**").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/docente/list").hasAuthority("ROLE_TEACH")
+                                .requestMatchers(HttpMethod.GET,"/docente/list").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManager ->

@@ -30,18 +30,23 @@ public class DocenteController {
         return ResponseEntity.ok(docenteService.actualizarDocente(request));
 
     }
-    @Operation(summary = "listar docente",description = "devuelve una lista de registros de docentes")
+    @Operation(summary = "listar docentes",description = "devuelve una lista de registros de docentes")
     @GetMapping(value = "list")
     public ResponseEntity<List<DocenteResponse>> listDocentes(){
         return ResponseEntity.ok(docenteService.listDocentes());
     }
-    @Operation(summary = "obtener docente",description = "devuelve un registro de un docente")
+    @Operation(summary = "obtener docente por id",description = "devuelve un registro de un docente")
     @GetMapping(value = "docente")
-    public ResponseEntity<DocenteResponse> docentes(@RequestParam Long id){
+    public ResponseEntity<DocenteResponse> docente(@RequestParam Long id){
         return ResponseEntity.ok(docenteService.docente(id));
     }
+    @Operation(summary = "obtener docente por email",description = "devuelve un registro de un docente")
+    @GetMapping(value = "docente/email")
+    public ResponseEntity<DocenteResponse> docenteByEmail(@RequestParam String email){
+        return ResponseEntity.ok(docenteService.docenteByEmail(email));
+    }
 
-    @Operation(summary = "borrar docente", description = "eliminar docente(modificará el estado de un docente a falce)")
+    @Operation(summary = "borrar docente por id", description = "eliminar docente(modificará el estado de un docente a falce)")
     @PutMapping(value = "delete")
     public ResponseEntity<Map<String, Object>> deleteDocente(@RequestParam Long idAdmin, @RequestParam Long idDocente) {
 

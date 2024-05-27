@@ -11,5 +11,6 @@ public interface EstudianteService {
     EstudianteResponse updateEstudiante(EstudianteUpdateRequest request);
     List<EstudianteResponse> listEstudiantes();
     EstudianteResponse estudiante(Long id);
+    EstudianteResponse estudianteBYEmail(String email);
     Map<String,Object> deleteEstudiante(Long idAdmin, Long idEstudiante);
 }
