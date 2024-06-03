@@ -7,6 +7,7 @@ import com.devs.demoCours.infraestructure.abstractServices.DocenteService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,10 +36,22 @@ public class DocenteController {
     public ResponseEntity<List<DocenteResponse>> listDocentes(){
         return ResponseEntity.ok(docenteService.listDocentes());
     }
+    @Operation(summary = "listar docentes por páginas ",description = "devuelve una lista de registros de docentes por paginas")
+    @GetMapping(value = "public/listPage")
+    public ResponseEntity<Page<DocenteResponse>> listDocentesInPages(@RequestParam(required = false) String name,
+                                                                     @RequestParam(defaultValue = "0") int page,
+                                                                     @RequestParam(defaultValue = "5") int size) {
+        return ResponseEntity.ok(docenteService.ListDocentesPaginado(name,page,size));
+    }
     @Operation(summary = "obtener docente por id",description = "devuelve un registro de un docente")
     @GetMapping(value = "docente")
     public ResponseEntity<DocenteResponse> docente(@RequestParam Long id){
         return ResponseEntity.ok(docenteService.docente(id));
+    }
+    @Operation(summary = "obtener docente por id",description = "devuelve un registro de un docente")
+    @GetMapping(value = "public/docenteForCurse")
+    public ResponseEntity<List<DocenteResponse>> listDocenteForId(@RequestParam Long idCurso){
+        return ResponseEntity.ok(docenteService.listDocenteForIdCurso(idCurso));
     }
     @Operation(summary = "obtener docente por email",description = "devuelve un registro de un docente")
     @GetMapping(value = "docente/email")

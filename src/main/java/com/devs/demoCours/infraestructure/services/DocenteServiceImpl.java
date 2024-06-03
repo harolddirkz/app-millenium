@@ -16,6 +16,10 @@ import com.devs.demoCours.utils.exeptions.UsuarioNoAutorizado;
 import com.devs.demoCours.utils.exeptions.UsuarioNoExist;
 import com.devs.demoCours.utils.mapper.DocenteMapping;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.swing.text.html.Option;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.devs.demoCours.utils.Role.ROLE_STUDENT;
 import static com.devs.demoCours.utils.Role.ROLE_TEACH;
@@ -114,6 +119,16 @@ public class DocenteServiceImpl implements DocenteService {
         return response;
     }
 
+    @Override
+    public Page<DocenteResponse> ListDocentesPaginado(String name, int page, int size) {
+        Pageable pageable = PageRequest.of(page,size);
+        Page<DocenteEntity> docenteEntityPage = docenteRepository.listDocentesPageable(name.toUpperCase(),pageable);
+        List<DocenteResponse> docenteResponse = docenteEntityPage.stream()
+                .map(docenteMapping::entityToResponse)
+                .toList();
+        return new PageImpl<>(docenteResponse,pageable,docenteEntityPage.getTotalElements());
+    }
+
     /*
     este método retornará un DocenteResponse, si hay un registro en la base de datos;
     de lo contrario retornara un UsuarioNotExist como error.
@@ -174,6 +189,15 @@ public class DocenteServiceImpl implements DocenteService {
             throw new UsuarioNoExist(idDocente.toString());
         }
 
+
+    }
+    /*método que obtendrá lista de docentes según il id de un curso*/
+    @Override
+    public List<DocenteResponse> listDocenteForIdCurso(Long idCurso) {
+        List<DocenteEntity> docentes = docenteRepository.listDocenteForIdCurso(idCurso);
+        return docentes.stream()
+                .map(docenteMapping::entityToResponse)
+                .toList();
 
     }
     /*

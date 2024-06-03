@@ -44,6 +44,8 @@ public class CursoEntity implements Serializable {
     private Integer duration;
     @Column(name = "activo")
     private boolean activo;
+    @Column(name = "imagen")
+    private String image;
 
     /*
     * relación con la Entidad Detalle-Curso

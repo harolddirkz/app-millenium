@@ -40,4 +40,5 @@ public class CursoUpdateRequest implements Serializable {
     @Schema(example = "6")
     private Integer  duration;
     private boolean activo;
+    private String image;
 }

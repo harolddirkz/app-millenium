@@ -7,6 +7,7 @@ public class DniValidation implements ConstraintValidator<Dni,String> {
 
     @Override
     public void initialize(Dni dni) {
+
         ConstraintValidator.super.initialize(dni);
     }
 
