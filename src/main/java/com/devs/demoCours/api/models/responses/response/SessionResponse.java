@@ -14,5 +14,6 @@ public class SessionResponse {
     private LocalDateTime finalSession;
     private String description;
     private DocenteResponse docente;
+    private long duration;
 
 }

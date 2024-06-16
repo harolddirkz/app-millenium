@@ -5,13 +5,12 @@ import com.devs.demoCours.api.models.request.SessionUpdateRequest;
 import com.devs.demoCours.api.models.responses.response.SessionCompleteResponse;
 import com.devs.demoCours.api.models.responses.response.SessionResponse;
 import com.devs.demoCours.domain.entities.*;
-import com.devs.demoCours.domain.repositories.CursoRepository;
-import com.devs.demoCours.domain.repositories.DocenteRepository;
-import com.devs.demoCours.domain.repositories.InscriptionRepository;
-import com.devs.demoCours.domain.repositories.SessionRepository;
+import com.devs.demoCours.domain.repositories.*;
 import com.devs.demoCours.infraestructure.abstractServices.SessionService;
+import com.devs.demoCours.infraestructure.helpers.CursoHelper;
+import com.devs.demoCours.infraestructure.helpers.DeleteEntityHelp;
+import com.devs.demoCours.infraestructure.helpers.NumOrdenHelper;
 import com.devs.demoCours.infraestructure.helpers.RolHelper;
-import com.devs.demoCours.infraestructure.helpers.SessionHelper;
 import com.devs.demoCours.utils.exeptions.IdNoExist;
 import com.devs.demoCours.utils.exeptions.UsuarioNoAutorizado;
 import com.devs.demoCours.utils.exeptions.UsuarioNoExist;
@@ -20,8 +19,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -31,24 +34,32 @@ import java.util.Optional;
 public class SessionServiceImpl implements SessionService {
     private SessionRepository sessionRepository;
     private DocenteRepository docenteRepository;
-    private CursoRepository cursoRepository;
     private InscriptionRepository inscriptionRepository;
     private final RolHelper rolhelper;
-    private final SessionHelper sessionHelper;
+    private final CursoHelper cursoHelper;
+    private final NumOrdenHelper numOrdenHelper;
     private final SessionMapping sessionMapping;
+    private final DeleteEntityHelp deleteEntityHelp;
+    private ModuloRepository moduloRepository;
 
+    @Transactional
     @Override
     public SessionResponse crearSession(Long idAdmin, SessionCreateRequest request) {
         DocenteEntity docenteAdmin = docenteRepository.buscarPorIdAndStatus(idAdmin).orElseThrow(() -> new UsuarioNoExist(idAdmin.toString()));
         DocenteEntity docenteSession = docenteRepository.buscarPorIdAndStatus(request.getIdDocente()).orElseThrow(() -> new UsuarioNoExist(request.getIdDocente().toString()));
-        CursoEntity curso = cursoRepository.obtenerCurso(request.getIdCurso()).orElseThrow(() -> new IdNoExist(request.getIdCurso().toString(), "curso"));
+
+        ModuloEntity modulo = moduloRepository.moduloForId(request.getIdModulo()).orElseThrow(() -> new IdNoExist(request.getIdModulo().toString(), "Modulo"));
+        CursoEntity curso = modulo.getCurso();
         List<RoleEntity> roles = docenteAdmin.getRoles();
 
         if (rolhelper.esAdmin(roles)) {
-            Integer numOrden = sessionHelper.numOrden(curso.getSessionEntityList());
+            Integer numOrden = numOrdenHelper.numOrdenSession(modulo.getSessionEntities());
+            long duration = Duration.between(request.getInicioSession(), request.getFinalSession()).toHours();
+
             SessionEntity session = SessionEntity.builder()
                     .docente(docenteSession)
-                    .curso(curso)
+                    .modulo(modulo)
+                    .duration(duration)
                     .description(request.getDescription())
                     .material(request.getMaterial())
                     .numOrden(numOrden)
@@ -57,6 +68,9 @@ public class SessionServiceImpl implements SessionService {
                     .finalSession(request.getFinalSession())
                     .build();
             sessionRepository.save(session);
+            cursoHelper.actualizarDurationCurso(curso, duration);
+            cursoHelper.actualizarFechaInicio(curso);
+            cursoHelper.actualizarFechaFinal(curso);
             return sessionMapping.entityToResponse(session);
 
         } else {
@@ -65,7 +79,7 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public List<SessionResponse> listSessionForCurso(Long idCurso) {
+    public List<SessionResponse> listSessionForModulo(Long idCurso) {
         List<SessionEntity> listSessions = sessionRepository.listSession(idCurso);
         List<SessionResponse> response = new ArrayList<>();
         for (SessionEntity session : listSessions) {
@@ -74,40 +88,77 @@ public class SessionServiceImpl implements SessionService {
         return response;
     }
 
+
     @Override
+
     public SessionCompleteResponse session(Long idSession, Long idCurso, Long idEstudiante) {
-        Optional<InscriptionEntity> inscription = inscriptionRepository.buscarPorIdCursoAndIdStudent(idCurso,idEstudiante);
-        if(inscription.isPresent()){
+        Optional<InscriptionEntity> inscription = inscriptionRepository.buscarPorIdCursoAndIdStudent(idCurso, idEstudiante);
+        if (inscription.isPresent()) {
             SessionEntity session = sessionRepository.findById(idSession).orElseThrow(() -> new IdNoExist(idSession.toString(), "Sesión"));
 
             return sessionMapping.entityToResponseComplete(session);
-        }else {
+        } else {
             throw new UsuarioNoAutorizado(idEstudiante.toString());
         }
 
     }
 
 
-
+    @Transactional
     @Override
     public SessionCompleteResponse editSession(Long idAdmin, SessionUpdateRequest request) {
         Long idSession = request.getId();
         SessionEntity sessionDb = sessionRepository.findById(idSession).orElseThrow(() -> new IdNoExist(idSession.toString(), "Sesión"));
-        DocenteEntity docenteDb = docenteRepository.buscarPorIdAndStatus(idAdmin).orElseThrow(()->new UsuarioNoExist(idAdmin.toString()));
-        DocenteEntity docente = docenteRepository.buscarPorIdAndStatus(request.getIdDocente()).orElseThrow(()->new UsuarioNoExist(request.getIdDocente().toString()));
+        DocenteEntity docenteDb = docenteRepository.buscarPorIdAndStatus(idAdmin).orElseThrow(() -> new UsuarioNoExist(idAdmin.toString()));
+        DocenteEntity docente = docenteRepository.buscarPorIdAndStatus(request.getIdDocente()).orElseThrow(() -> new UsuarioNoExist(request.getIdDocente().toString()));
         List<RoleEntity> roles = docenteDb.getRoles();
-        if(rolhelper.esAdmin(roles)){
+        if (rolhelper.esAdmin(roles)) {
+            long oldDuration = sessionDb.getDuration();
+            long newDuration = Duration.between(request.getInicioSession(), request.getFinalSession()).toHours();
+            long durationDifference = newDuration - oldDuration;
             sessionDb.setDescription(request.getDescription());
             sessionDb.setMaterial(request.getMaterial());
+            sessionDb.setDuration(newDuration);
             sessionDb.setStatus(request.isStatus());
             sessionDb.setDocente(docente);
             sessionDb.setInicioSession(request.getInicioSession());
             sessionDb.setFinalSession(request.getFinalSession());
             sessionRepository.save(sessionDb);
+            CursoEntity curso = sessionDb.getModulo().getCurso();
+            cursoHelper.actualizarDurationCurso(curso, durationDifference);
+            cursoHelper.actualizarFechaInicio(curso);
+            cursoHelper.actualizarFechaFinal(curso);
+
             return sessionMapping.entityToResponseComplete(sessionDb);
 
-        }else {
+        } else {
             throw new UsuarioNoAutorizado(idAdmin.toString());
         }
     }
+
+    @Transactional
+    @Override
+    public Map<String, Object> deleteSession(Long idDocente, Long idSession) {
+        DocenteEntity docente = docenteRepository.buscarPorIdAndStatus(idDocente).orElseThrow(() -> new UsuarioNoExist("docente"));
+        SessionEntity session = sessionRepository.findById(idSession).orElseThrow(() -> new IdNoExist(idSession.toString(), "Session"));
+        CursoEntity curso = session.getModulo().getCurso();
+        DocenteEntity docenteAux = session.getDocente();
+        List<RoleEntity> roles = docente.getRoles();
+        if (rolhelper.esAdmin(roles) || docenteAux.equals(docente)) {
+            Map<String, Object> response = deleteEntityHelp.deleteEntity(sessionRepository, idSession, "Session");
+            long duration = session.getDuration();
+            cursoHelper.actualizarDurationCurso(curso, -duration);
+            cursoHelper.actualizarFechaInicio(curso);
+            cursoHelper.actualizarFechaFinal(curso);
+            return response;
+        } else {
+            throw new UsuarioNoAutorizado(idDocente.toString());
+
+        }
+    }
+
+
+
 }
+
+

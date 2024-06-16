@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 
 
 @NoArgsConstructor
@@ -30,4 +31,5 @@ public class DocenteResponse {
     private Genero genero;
     @Schema(example = "Abogado con 20 años de experiencia...")
     private String review;
+    private LocalDate fechaInscription;
 }

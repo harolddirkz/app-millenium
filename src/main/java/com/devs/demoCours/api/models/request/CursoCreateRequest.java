@@ -25,23 +25,10 @@ public class CursoCreateRequest implements Serializable {
 
     @Schema(example = "curso donde se verán las actualizaciones...", nullable = true)
     private String detalle;
-
-    @FutureOrPresent(message = "La fecha de inicio del curso no puede ser una fecha pasada")
-    @Schema(example = "2025-10-02", nullable = true)
-    private LocalDate fechaInicio;
-
-    @Future(message = "la fecha de finalización del curso no puede ser una fecha pasada")
-    @Schema(example = "2025-11-02", nullable = true)
-    private LocalDate fechaFin;
-
     @NotNull(message = "se tiene que ingresar la modalidad del curso")
     @Schema(example = "ONLINE")
     private ModalidadCurso modalidadCurso;
-
-    @NotNull(message = "se tiene que ingresar la duración del curso en horas")
-    @Positive(message = "la horas no pueden ser negativas")
     @Schema(example = "6")
-    private Integer duration;
     private boolean activo;
     private String image;
 

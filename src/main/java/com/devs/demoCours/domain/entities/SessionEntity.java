@@ -24,30 +24,33 @@ public class SessionEntity implements Serializable {
     private Integer numOrden;
     private LocalDateTime inicioSession;
     private LocalDateTime finalSession;
+    private long duration;
     private boolean status;
     private String description;
     private String material;
 
     //relación con la Entidad ExamenSession
-    @OneToMany(mappedBy = "session",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<ExamenSessionEntity> examenSessionEntityList;
 
-    //relación con la entidad Curso
-    @ManyToOne(fetch = FetchType.LAZY,optional = false)
-    @JoinColumn(name = "curso_id")
-    private CursoEntity curso;
+
+
+    /*relación con la entidad módulo*/
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "modulo_id")
+    private ModuloEntity modulo;
     /*
     relación con la Entidad Docente
      */
-    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "docente_id")
 
     private DocenteEntity docente;
     /*
     Relación con la entidad MaterialEducativo
      */
-    @OneToMany(mappedBy = "session",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<MaterialEducativoEntity> materialEducativoEntityList;
 

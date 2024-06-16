@@ -2,15 +2,16 @@ spring:
   application:
     name: demoCours
   datasource:
-    url: jdbc:mysql://localhost:3306/management_courses
+    url: jdbc:mysql://localhost:3306/management_courses_3
     username: root
     password: admin
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
-    hibernate.ddl-auto: update
+    hibernate.ddl-auto: validate
+    open-in-view: false
 logging:
   level:
-    org.hibernate.SQL: DEBUG
+    org.hibernate.SQL: info
 
 ##spring.application.name=demoCours

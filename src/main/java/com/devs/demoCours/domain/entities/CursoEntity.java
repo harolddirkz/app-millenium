@@ -41,7 +41,7 @@ public class CursoEntity implements Serializable {
     @Column(name = "modalidad",nullable = false)
     private ModalidadCurso modalidad;
     @Column(name = "duration",nullable = false)
-    private Integer duration;
+    private long duration;
     @Column(name = "activo")
     private boolean activo;
     @Column(name = "imagen")
@@ -54,12 +54,11 @@ public class CursoEntity implements Serializable {
     @JsonIgnore
     private Set<DetalleCursoEntity> detalleCurso;
 
-    /*
-    * relación con la entidad Sesión
-    */
-    @OneToMany(mappedBy = "curso",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
 
-    private List<SessionEntity> sessionEntityList;
+
+    /* relación con la entidad módulo*/
+    @OneToMany(mappedBy = "curso",cascade = CascadeType.ALL,orphanRemoval = true,fetch = FetchType.LAZY)
+    private List<ModuloEntity> moduloEntities;
     /*
     Relación con la Entidad Inscripción
      */

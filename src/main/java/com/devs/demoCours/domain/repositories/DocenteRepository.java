@@ -33,8 +33,14 @@ public interface DocenteRepository extends JpaRepository<DocenteEntity,Long> {
     /*
     obtener docentes por Id del curso
      */
-    @Query("select d from docente d inner join session s on s.docente.idPersona=d.idPersona inner join curso c " +
-            "on s.curso.idCurso=c.idCurso where c.idCurso=:idCurso")
+   /* @Query("select d from docente d inner join session s on s.docente.idPersona=d.idPersona inner join curso c " +
+            "on s.curso.idCurso=c.idCurso where c.idCurso=:idCurso")*/
+   // List<DocenteEntity> listDocenteForIdCurso(@Param("idCurso") Long idCurso);
+    @Query(value = "select d from docente d " +
+            " join  fetch d.sessionEntityList s" +
+            " join fetch s.modulo m" +
+            " join fetch m.curso c " +
+            "where c.idCurso=:idCurso")
     List<DocenteEntity> listDocenteForIdCurso(@Param("idCurso") Long idCurso);
 
 }

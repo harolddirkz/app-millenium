@@ -18,7 +18,7 @@ public interface InscriptionRepository extends JpaRepository<InscriptionEntity, 
     @Query("select i from inscription  i where i.curso.idCurso=:idCurso and i.estudiante.idPersona=:idStudent")
     Optional<InscriptionEntity> buscarPorIdCursoAndIdStudent(@Param("idCurso") Long idCurso, @Param("idStudent") Long idStudent);
 
-    @Query("select i.curso.sessionEntityList from inscription i where i.curso.idCurso=:idCurso and i.estudiante.idPersona=:idStudent")
+    @Query("select i.curso.inscriptionEntities from inscription i where i.curso.idCurso=:idCurso and i.estudiante.idPersona=:idStudent")
     List<SessionEntity> sessionForIdAndIdIncr(@Param("idCurso") Long idCurso, @Param("idStudent") Long idStudent);
 
     @Query("select i from inscription i where i.estudiante.idPersona=:idEstudiante")

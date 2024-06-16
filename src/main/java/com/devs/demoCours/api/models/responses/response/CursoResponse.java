@@ -30,7 +30,6 @@ public class CursoResponse {
     @Schema(example = "PRESENCIAL")
     private ModalidadCurso modalidad;
     @Schema(example = "8")
-    private Integer duration;
+    private long duration;
     private String image;
-    //private List<SessionResponse> sessionEntityList;
 }

@@ -34,7 +34,7 @@ public class InscriptionServiceImpl implements InscriptionService {
     public InscriptionResponse crear(InscriptionCreateRequest request, Long idAdmin) {
         Long idCurso = request.getCursoId();
         Long idEstudiante = request.getEstudianteId();
-        CursoEntity curso = cursoRepository.obtenerCurso(idCurso).orElseThrow(() -> new IdNoExist(idCurso.toString(), "Curso"));
+        CursoEntity curso = cursoRepository.obtenerCursoActivo(idCurso).orElseThrow(() -> new IdNoExist(idCurso.toString(), "Curso"));
         EstudianteEntity estudiante = estudianteRepository.EstudiantePorId(idEstudiante).orElseThrow(() -> new UsuarioNoExist(idEstudiante.toString()));
         Optional<InscriptionEntity> inscriptionExist =inscriptionRepository.buscarPorIdCursoAndIdStudent(idCurso,idEstudiante);
 

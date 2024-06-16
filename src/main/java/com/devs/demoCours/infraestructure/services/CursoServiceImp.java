@@ -51,10 +51,8 @@ public class CursoServiceImp implements CursoService {
                         .nombre(request.getNombre())
                         .tipoCurso(request.getTipoCurso())
                         .detalle(request.getDetalle())
-                        .fechaInicio(request.getFechaInicio())
-                        .fechaFin(request.getFechaFin())
                         .modalidad(request.getModalidadCurso())
-                        .duration(request.getDuration())
+                        .duration(0)
                         .activo(request.isActivo())
                         .image(request.getImage())
                         .build();
@@ -101,11 +99,9 @@ public class CursoServiceImp implements CursoService {
         cursoDb.setNombre(request.getNombre());
         cursoDb.setTipoCurso(request.getTipoCurso());
         cursoDb.setDetalle(request.getDetalle());
-        cursoDb.setFechaInicio(request.getFechaInicio());
-        cursoDb.setFechaFin(request.getFechaFin());
         cursoDb.setModalidad(request.getModalidadCurso());
         cursoDb.setActivo(request.isActivo());
-        cursoDb.setDuration(request.getDuration());
+        cursoDb.setImage(request.getImage());
         return cursoDb;
     }
 
@@ -151,7 +147,7 @@ public class CursoServiceImp implements CursoService {
      */
     @Override
     public Map<String, Object> deleteCurso(Long idAdmin, Long idCurso) {
-        CursoEntity cursoBd = cursoRepository.obtenerCurso(idCurso).orElseThrow(() -> new IdNoExist(idCurso.toString(), "curso"));
+        CursoEntity cursoBd = cursoRepository.obtenerCursoActivo(idCurso).orElseThrow(() -> new IdNoExist(idCurso.toString(), "curso"));
         DocenteEntity docenteAdmin = docenteRepository.buscarPorIdAndStatus(idAdmin).orElseThrow(() -> new UsuarioNoAutorizado(idAdmin.toString()));
         List<RoleEntity> roles = docenteAdmin.getRoles();
         if (rolHelper.esAdmin(roles)) {
@@ -180,6 +176,7 @@ public class CursoServiceImp implements CursoService {
 
 
         /*
+        *
         List<CursoAndDocenteResponse> cursoAndDocenteResponses = new ArrayList<>();
         for (CursoEntity curso : cursosEntity) {
             Integer idCurso = curso.getIdCurso();
@@ -195,11 +192,13 @@ public class CursoServiceImp implements CursoService {
 
     @Override
     public CursoResponse getCurso(Long id) {
-        Optional<CursoEntity> curso =cursoRepository.obtenerCurso(id);
+        Optional<CursoEntity> curso =cursoRepository.obtenerCursoActivo(id);
         if (curso.isPresent()){
             return cursoMapping.entityToResponse(curso.get());
         }else {
             throw new IdNoExist(id.toString(),"cursos");
         }
     }
+
+
 }

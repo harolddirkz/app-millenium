@@ -239,6 +239,7 @@ public class DocenteServiceImpl implements DocenteService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .especialidad(request.getEspecialidad())
+                .fechaInscription(LocalDate.now())
                 .status(true)
                 .activo(true)
                 .roles(listRol)

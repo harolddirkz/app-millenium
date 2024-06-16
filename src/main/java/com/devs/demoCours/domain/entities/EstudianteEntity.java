@@ -21,8 +21,7 @@ import java.util.stream.Collectors;
 @SuperBuilder()
 @Entity(name = "estudiante")
 public class EstudianteEntity extends Persona implements Serializable, UserDetails {
-    @Column(name = "fecha_inscription", nullable = false, length = 10)
-    private LocalDate fechaInscription;
+
     @Column(name = "review", length = 100)
     private String review;
 

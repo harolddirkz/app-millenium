@@ -22,6 +22,7 @@ public class RegisterRequest {
     @Email
     String email;
     String password;
+    String passwordConfirm;
 
 
 }

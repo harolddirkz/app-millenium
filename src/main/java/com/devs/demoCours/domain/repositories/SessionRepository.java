@@ -9,10 +9,13 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface SessionRepository extends JpaRepository<SessionEntity,Long> {
-    @Query("select s from session s where s.curso.idCurso =:idCurso")
-    List<SessionEntity> listSession(@Param("idCurso")Long idCurso);
-
+public interface SessionRepository extends JpaRepository<SessionEntity, Long> {
+    /*
+     *@Query("select s from session s where s.curso.idCurso =:idCurso")
+     * List<SessionEntity> listSession(@Param("idCurso")Long idCurso);
+     */
+    @Query(value = "select s from session s where s.modulo.idModulo=:idModulo")
+    List<SessionEntity> listSession(@Param("idModulo") Long idModulo);
 
 
 }

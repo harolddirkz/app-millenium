@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -26,4 +28,5 @@ public class EstudianteResponse {
     private Genero genero;
     @Schema(example = "Soy un estudiante con miras al futuro...")
     private String review;
+    private LocalDate fechaInscription;
 }

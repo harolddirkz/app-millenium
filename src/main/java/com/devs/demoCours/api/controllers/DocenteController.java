@@ -44,8 +44,8 @@ public class DocenteController {
         return ResponseEntity.ok(docenteService.ListDocentesPaginado(name,page,size));
     }
     @Operation(summary = "obtener docente por id",description = "devuelve un registro de un docente")
-    @GetMapping(value = "docente")
-    public ResponseEntity<DocenteResponse> docente(@RequestParam Long id){
+    @GetMapping(value = "public/docente/{id}")
+    public ResponseEntity<DocenteResponse> docente(@PathVariable Long id){
         return ResponseEntity.ok(docenteService.docente(id));
     }
     @Operation(summary = "obtener docente por id",description = "devuelve un registro de un docente")
