@@ -2,9 +2,9 @@ spring:
   application:
     name: demoCours
   datasource:
-    url: jdbc:mysql://localhost:3306/management_courses_3
-    username: root
-    password: admin
+    url: ${MYSQL_URL}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
@@ -15,3 +15,8 @@ logging:
     org.hibernate.SQL: info
 
 ##spring.application.name=demoCours
+
+##Amazon s3
+
+
+
