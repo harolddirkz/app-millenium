@@ -58,6 +58,11 @@ public class DocenteController {
     public ResponseEntity<DocenteResponse> docenteByEmail(@RequestParam String email){
         return ResponseEntity.ok(docenteService.docenteByEmail(email));
     }
+    @Operation(summary = "obtener docente por nombre",description = "devuelve un registro de un docente")
+    @GetMapping(value = "docente/name")
+    public ResponseEntity<List<DocenteResponse>> docentePorNombre(@RequestParam String nombre){
+        return ResponseEntity.ok(docenteService.docenteByName(nombre));
+    }
 
     @Operation(summary = "borrar docente por id", description = "eliminar docente(modificará el estado de un docente a falce)")
     @PutMapping(value = "delete")

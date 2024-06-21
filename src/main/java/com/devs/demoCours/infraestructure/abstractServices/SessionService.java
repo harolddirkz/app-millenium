@@ -11,6 +11,7 @@ import java.util.Map;
 public interface SessionService {
     SessionResponse crearSession(Long idAdmin, SessionCreateRequest request);
     List<SessionResponse> listSessionForModulo(Long idModulo);
+    List<SessionCompleteResponse> listSessionCompleteForModulo(Long idModulo);
 
     SessionCompleteResponse session(Long idSession, Long idModulo, Long idEstudiante);
 

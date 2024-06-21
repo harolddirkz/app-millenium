@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @NoArgsConstructor
@@ -30,7 +31,9 @@ public class CursoUpdateRequest implements Serializable {
     @NotNull(message = "se tiene que ingresar la modalidad del curso")
     @Schema(example = "ONLINE")
     private ModalidadCurso modalidadCurso;
-
+    @PositiveOrZero
+    @Schema(example = "50")
+    private BigDecimal precio;
     private boolean activo;
     private String image;
 }

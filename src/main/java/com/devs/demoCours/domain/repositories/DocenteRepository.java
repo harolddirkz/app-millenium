@@ -16,6 +16,8 @@ import java.util.Optional;
 public interface DocenteRepository extends JpaRepository<DocenteEntity,Long> {
     @Query("Select d from docente d where d.email=:email and d.activo=true ")
     Optional<DocenteEntity> buscarPorEmail(@Param("email") String email);
+    @Query("Select d from docente d where (d.name LIKE %:nombre% or d.lastName LIKE %:nombre%) and d.activo=true order by d.fechaInscription limit 5")
+    List<DocenteEntity> buscarPorNombre(@Param("nombre") String nombre);
 
     @Query("select d from docente d where d.dni=:dni")
     Optional<DocenteEntity> buscarPorDni(@Param("dni") String dni);
@@ -31,7 +33,7 @@ public interface DocenteRepository extends JpaRepository<DocenteEntity,Long> {
     @Query("select d.roles from docente  d where d.idPersona=:idAdmin")
     List<RoleEntity> listarDocentesRoles(@Param("idAdmin") Long idAdmin);
     /*
-    obtener docentes por Id del curso
+    obtener docentes por id del curso
      */
    /* @Query("select d from docente d inner join session s on s.docente.idPersona=d.idPersona inner join curso c " +
             "on s.curso.idCurso=c.idCurso where c.idCurso=:idCurso")*/

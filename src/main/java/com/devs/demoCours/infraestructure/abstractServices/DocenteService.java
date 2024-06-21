@@ -20,6 +20,7 @@ public interface DocenteService {
     DocenteResponse docente(Long id);
 
     DocenteResponse docenteByEmail(String email);
+    List<DocenteResponse> docenteByName(String name);
 
     Map<String, Object> deleteDocente(Long idAdmin, Long idDocente);
 

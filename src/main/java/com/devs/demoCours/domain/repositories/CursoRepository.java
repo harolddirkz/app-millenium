@@ -20,6 +20,8 @@ public interface CursoRepository extends JpaRepository<CursoEntity, Long> {
 
     @Query("select c from curso c where c.activo=true and c.tipoCurso=:type and upper(c.nombre) like %:name%")
     Page<CursoEntity> listCursosPageForName(@Param("type") TipoCurso type, @Param("name") String name, Pageable pageable);
+    @Query("select c from curso c where c.activo=:status and c.tipoCurso=:type and upper(c.nombre) like %:name%")
+    Page<CursoEntity> listCursosPageForNameAndStatus(@Param("type") TipoCurso type, @Param("name") String name,@Param("status") boolean status, Pageable pageable);
 
     @Query("select c from curso c where c.idCurso=:idCurso and c.activo=true ")
     Optional<CursoEntity> obtenerCursoActivo(@Param("idCurso") Long idCurso);

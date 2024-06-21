@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @NoArgsConstructor
@@ -30,6 +31,9 @@ public class CursoCreateRequest implements Serializable {
     private ModalidadCurso modalidadCurso;
     @Schema(example = "6")
     private boolean activo;
+    @PositiveOrZero
+    @Schema(example = "50")
+    private BigDecimal precio;
     private String image;
 
 

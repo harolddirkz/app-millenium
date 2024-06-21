@@ -79,11 +79,21 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public List<SessionResponse> listSessionForModulo(Long idCurso) {
-        List<SessionEntity> listSessions = sessionRepository.listSession(idCurso);
+    public List<SessionResponse> listSessionForModulo(Long idModulo) {
+        List<SessionEntity> listSessions = sessionRepository.listSession(idModulo);
         List<SessionResponse> response = new ArrayList<>();
         for (SessionEntity session : listSessions) {
             response.add(sessionMapping.entityToResponse(session));
+        }
+        return response;
+    }
+
+    @Override
+    public List<SessionCompleteResponse> listSessionCompleteForModulo(Long idModulo) {
+        List<SessionEntity> listSessions = sessionRepository.listSession(idModulo);
+        List<SessionCompleteResponse> response = new ArrayList<>();
+        for (SessionEntity session : listSessions) {
+            response.add(sessionMapping.entityToResponseComplete(session));
         }
         return response;
     }

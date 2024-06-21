@@ -149,6 +149,13 @@ public class DocenteServiceImpl implements DocenteService {
         return docente.map(docenteEntity -> docenteMapping.entityToResponse(docenteEntity)).orElse(null);
     }
 
+    @Override
+    public List<DocenteResponse> docenteByName(String name) {
+        List<DocenteEntity> docente=docenteRepository.buscarPorNombre(name);
+        return docente.stream().map(docenteMapping::entityToResponse)
+                .toList();
+    }
+
     /*
     Este método eliminará los roles y pasará a falce el atributo Active de un registro; cumpliendo una de las siguientes condiciones:
     El idAdmin ingresado tiene un rol de ROLE_ADMIN.

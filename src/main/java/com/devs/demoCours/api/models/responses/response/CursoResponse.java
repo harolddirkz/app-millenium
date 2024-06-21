@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -32,4 +33,6 @@ public class CursoResponse {
     @Schema(example = "8")
     private long duration;
     private String image;
+    private BigDecimal precio;
+    private boolean activo;
 }

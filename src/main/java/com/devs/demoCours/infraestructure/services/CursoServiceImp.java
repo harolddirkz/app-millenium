@@ -54,6 +54,7 @@ public class CursoServiceImp implements CursoService {
                         .modalidad(request.getModalidadCurso())
                         .duration(0)
                         .activo(request.isActivo())
+                        .precio(request.getPrecio())
                         .image(request.getImage())
                         .build();
                 cursoRepository.save(cursoNew);
@@ -101,6 +102,7 @@ public class CursoServiceImp implements CursoService {
         cursoDb.setDetalle(request.getDetalle());
         cursoDb.setModalidad(request.getModalidadCurso());
         cursoDb.setActivo(request.isActivo());
+        cursoDb.setPrecio(request.getPrecio());
         cursoDb.setImage(request.getImage());
         return cursoDb;
     }
@@ -127,6 +129,18 @@ public class CursoServiceImp implements CursoService {
                 .toList();
         return new PageImpl<>(cursoResponse, pageable, cursoEntityPage.getTotalElements());
     }
+
+    @Override
+    public Page<CursoResponse> cursoPageForNameAndStatus(TipoCurso tipoCurso, String name, int page, int size, boolean status) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<CursoEntity> cursoEntityPage = cursoRepository.listCursosPageForNameAndStatus(tipoCurso, name,status, pageable);
+        List<CursoResponse> cursoResponse = cursoEntityPage.stream()
+                .map(cursoMapping::entityToResponse)
+                .toList();
+        return new PageImpl<>(cursoResponse, pageable, cursoEntityPage.getTotalElements());
+    }
+
     @Override
     public Page<CursoAndDocenteResponse> cursoAndDocentePageForName(TipoCurso tipoCurso, String name, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -191,13 +205,19 @@ public class CursoServiceImp implements CursoService {
     }
 
     @Override
-    public CursoResponse getCurso(Long id) {
+    public CursoResponse getCursoActivo(Long id) {
         Optional<CursoEntity> curso =cursoRepository.obtenerCursoActivo(id);
         if (curso.isPresent()){
             return cursoMapping.entityToResponse(curso.get());
         }else {
             throw new IdNoExist(id.toString(),"cursos");
         }
+    }
+
+    @Override
+    public CursoResponse getCurso(Long id) {
+        CursoEntity curso =cursoRepository.curso(id).orElseThrow();
+        return cursoMapping.entityToResponse(curso);
     }
 
 

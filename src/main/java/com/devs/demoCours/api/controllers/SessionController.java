@@ -26,9 +26,14 @@ public class SessionController {
 
     }
     @Operation(summary = "listar sesiones",description = "listará las sesiones que pertenezcan a un modulo")
-    @GetMapping(value = "listar")
+    @GetMapping(value = "public/listar")
     public ResponseEntity<List<SessionResponse>> listarSessions(@RequestParam Long idModulo){
         return ResponseEntity.ok(sessionService.listSessionForModulo(idModulo));
+    }
+    @Operation(summary = "listar sesiones",description = "listará las sesiones que pertenezcan a un modulo")
+    @GetMapping(value = "listar")
+    public ResponseEntity<List<SessionCompleteResponse>> listarCompleteSessions(@RequestParam Long idModulo){
+        return ResponseEntity.ok(sessionService.listSessionCompleteForModulo(idModulo));
     }
    @Operation(summary = "obtener sesión",description = "retornará una sesión con toda su información incluido el material")
     @GetMapping(value = "complete/session")
