@@ -57,10 +57,10 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource configurationSource(){
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:4200"));
+        config.setAllowedOrigins(List.of("https://taupe-capybara-74e849.netlify.app/"));
         config.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
-        config.setAllowedHeaders(List.of("*"));
-        config.setExposedHeaders(Arrays.asList("Content-Type", "Authorization"));
+        config.setAllowedHeaders(List.of("Content-Type", "Authorization"));
+        config.setExposedHeaders(Arrays.asList("Content-Type", "Authorization","Another-Header"));
         config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
