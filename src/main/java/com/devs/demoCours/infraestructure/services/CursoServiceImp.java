@@ -131,10 +131,15 @@ public class CursoServiceImp implements CursoService {
     }
 
     @Override
-    public Page<CursoResponse> cursoPageForNameAndStatus(TipoCurso tipoCurso, String name, int page, int size, boolean status) {
+    public Page<CursoResponse> cursoPageForNameAndStatus(TipoCurso tipoCurso, String name, int page, int size, boolean status,Long idPersona) {
         Pageable pageable = PageRequest.of(page, size);
+        Page<CursoEntity> cursoEntityPage;
+        if (idPersona!=0){
+             cursoEntityPage = cursoRepository.listCursosPageForNameAndStatusAndIdDocente(tipoCurso, name,status, idPersona, pageable);
+        }else {
+            cursoEntityPage = cursoRepository.listCursosPageForNameAndStatus(tipoCurso, name,status, pageable);
+        }
 
-        Page<CursoEntity> cursoEntityPage = cursoRepository.listCursosPageForNameAndStatus(tipoCurso, name,status, pageable);
         List<CursoResponse> cursoResponse = cursoEntityPage.stream()
                 .map(cursoMapping::entityToResponse)
                 .toList();

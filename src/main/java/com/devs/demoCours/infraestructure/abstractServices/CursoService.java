@@ -15,7 +15,7 @@ public interface CursoService {
     CursoResponse actualizarCurso(Long idAdmin,CursoUpdateRequest request);
     List<CursoResponse> listCursos();
     Page<CursoResponse> cursoPageForName(TipoCurso tipoCurso,String name,int page,int size);
-    Page<CursoResponse> cursoPageForNameAndStatus(TipoCurso tipoCurso,String name,int page,int size,boolean status);
+    Page<CursoResponse> cursoPageForNameAndStatus(TipoCurso tipoCurso,String name,int page,int size,boolean status, Long idPersona);
     Page<CursoAndDocenteResponse> cursoAndDocentePageForName(TipoCurso tipoCurso,String name,int page,int size);
     Map<String,Object> deleteCurso(Long idAdmin, Long idCurso);
 

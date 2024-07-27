@@ -37,10 +37,16 @@ public interface CursoRepository extends JpaRepository<CursoEntity, Long> {
             "join m.curso c " +
             "where c.idCurso=:idCurso")
     Optional<LocalDateTime> buscarFechaMinima(@Param("idCurso") Long idCurso);
-    @Query(value = "select min(s.finalSession) from session s " +
+    @Query(value = "select max(s.finalSession) from session s " +
             "join s.modulo m " +
             "join m.curso c " +
             "where c.idCurso=:idCurso")
     Optional<LocalDateTime> buscarFechaMaxima(@Param("idCurso") Long idCurso);
+    @Query(value = " select c from session s" +
+            " join s.modulo m " +
+            "join m.curso c where c.activo=:status and c.tipoCurso=:type and upper(c.nombre) like %:name% and s.docente.idPersona=:idPersona")
+    Page<CursoEntity> listCursosPageForNameAndStatusAndIdDocente(@Param("type") TipoCurso type, @Param("name") String name,@Param("status") boolean status,@Param("idPersona") Long idPersona, Pageable pageable);
+
+
 
 }

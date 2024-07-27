@@ -29,8 +29,8 @@ public class CursoController {
 
     }
 
-    @Operation(summary = "actualizar docente", description = "actualizará un curso ")
-    @PostMapping(value = "update")
+    @Operation(summary = "actualizar curso", description = "actualizará un curso ")
+    @PutMapping(value = "update")
     public ResponseEntity<CursoResponse> updateCurso(@Valid @RequestBody CursoUpdateRequest request, @RequestParam Long idAdmin) {
         return ResponseEntity.ok(cursoService.actualizarCurso(idAdmin, request));
 
@@ -64,8 +64,9 @@ public class CursoController {
                                                           @RequestParam(required = false) String name,
                                                           @RequestParam(defaultValue = "0") int page,
                                                           @RequestParam(defaultValue = "5") int size,
-                                                          @RequestParam(required = false) boolean status) {
-        return ResponseEntity.ok(cursoService.cursoPageForNameAndStatus(type, name, page, size,status));
+                                                          @RequestParam(required = false) boolean status,
+                                                          @RequestParam(defaultValue = "0") Long idPersona) {
+        return ResponseEntity.ok(cursoService.cursoPageForNameAndStatus(type, name, page, size,status,idPersona));
     }
 
     @Operation(summary = "listar cursos y docentes por páginas", description = "listará los cursos activos,estos cursos traerán consigo una lista de docentes. estará estructurado por páginas")

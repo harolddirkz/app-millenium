@@ -16,6 +16,7 @@ public class SessionCompleteResponse {
     private LocalDateTime finalSession;
     private String material;
     private long duration;
+    private boolean status;
     //private CursoResponse curso;
     private String description;
     private DocenteResponse docente;
